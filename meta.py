@@ -18,7 +18,7 @@ def make_db_engine():
 
 LANGUAGE = os.environ["LOCALE_LANGUAGE_NAME"]
 APP_URL = "http://" + LANGUAGE + ".rudevs.ru"
-DB_NAME = "growth_app" + LANGUAGE
+DB_NAME = "growth_app_" + LANGUAGE
 STACKOVERFLOW_HOSTNAME = "stackoverflow.com"
 STACKOVERFLOW_SITE_PARAM = "stackoverflow"
 INT_STACKOVERFLOW_SITE_PARAM = LANGUAGE + "." + STACKOVERFLOW_SITE_PARAM
