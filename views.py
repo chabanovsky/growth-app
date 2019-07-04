@@ -12,7 +12,7 @@ from sqlalchemy import and_, desc
 from sqlalchemy.sql import func
 
 from meta import app as application, db, db_session, engine
-from models import User
+from models import User, Activity, Site
 from meta import STACKEXCHANGE_CLIENT_SECRET, STACKEXCHANGE_CLIENT_ID, STACKEXCHANGE_CLIENT_KEY
 
 STACKEXCHANGE_ADD_COMMENT_ENDPOINT = "https://api.stackexchange.com/2.2/posts/{id}/comments/add"
@@ -29,6 +29,10 @@ def before_request():
     g.user = None
     if 'account_id' in session:
         g.user = User.query.filter_by(account_id=session['account_id']).first()
+        if 'language' in session:
+            g.site = Site.by_language(session['language'])
+        else:
+            return redirect(url_for("logout_oauth"))
 
 
 @application.after_request
@@ -39,17 +43,21 @@ def after_request(response):
 
     return response
 
-
-@application.route("/index.html", endpoint="index")
-@application.route("/", endpoint="index")
-def index():
+@application.route("/index.html", endpoint="activity")
+@application.route("/activity", endpoint="activity")
+@application.route("/", endpoint="activity")
+def activity():
     if g.user is None:
         return redirect(url_for('welcome'))
 
-    page = max(int(request.args.get("page", "1")), 1)
-    paginator = get_most_viewed_question_pagination(page)
-    return render_template('question_pag_list.html', paginator=paginator, base_url=url_for("index"),
-                           active_tab="most_viewed")
+    activities = Activity.all(g.site.id)
+    tab = max(int(request.args.get("tab", "1")), 1)
+    base_url = url_for("activity") + "?tab=" + str(tab)
+    return render_template('activity.html',
+                           activities=activities,
+                           base_url=base_url,
+                           tab=tab,
+                           paginator=None)
 
 
 @application.route("/no-way")

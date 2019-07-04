@@ -64,8 +64,9 @@ class Site(db.Model):
     api_name    = db.Column(db.String(100), unique=True)
     launch_date = db.Column(db.DateTime, nullable=False)
     creation_date= db.Column(db.DateTime, nullable=False)
+    language    = db.Column(db.String(100), unique=True)
 
-    def __init__(self, name, url, meta, chat, api_name, launch_date):
+    def __init__(self, name, url, meta, chat, api_name, launch_date, language):
         self.creation_date = datetime.datetime.now()
         self.name   = name
         self.url    = url
@@ -73,10 +74,19 @@ class Site(db.Model):
         self.chat   = chat
         self.api_name = api_name
         self.launch_date = launch_date
+        self.language = language
 
     @staticmethod
     def is_exist(adder, api_name):
         return True if adder.session.query(func.count(Site.id)).filter_by(api_name=api_name).scalar() > 0 else False
+
+    @staticmethod
+    def by_language(language):
+        session = db_session()
+        query = session.query(Site).filter_by(language=language)
+        result = query.first()
+        session.close()
+        return result
 
     @staticmethod
     def by_api_name(api_name):
@@ -237,6 +247,15 @@ class Activity(db.Model):
     @staticmethod
     def is_exist(adder, site_id, activity_type):
         return True if adder.session.query(func.count(Activity.id)).filter_by(site_id=site_id).filter_by(activity_type=activity_type).scalar() > 0 else False
+
+    @staticmethod
+    def all(site_id):
+        session = db_session()
+        query = session.query(Activity).filter_by(site_id=site_id).order_by(asc(Activity.creation_date))
+        result = query.all()
+        session.close()
+        return result
+
 
     def __repr__(self):
         return '<Activity %r>' % str(self.id)

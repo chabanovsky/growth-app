@@ -21,6 +21,7 @@ def get_redirect_url():
 @application.route("/oauth/logout/")
 def logout_oauth():
     session.pop('account_id', None)
+    session.pop('language', None)
     return redirect(url_for("welcome"))
 
 
@@ -143,4 +144,4 @@ def login_oauth():
         db.session.commit()
 
     session["account_id"] = account_id
-    return redirect(url_for("index"))
+    return redirect(url_for("activity"))

@@ -282,11 +282,12 @@ def load_sites(filename):
             launch_date = datetime.utcfromtimestamp(
                 int(item["launch_date"])
             )
+            language = item["language"]
 
             if Site.is_exist(adder, api_name):
                 continue
 
-            site = Site(name, url, meta, chat, api_name, launch_date)
+            site = Site(name, url, meta, chat, api_name, launch_date, language)
             adder.add(site)
     adder.done()
 

@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block js_ext %}
+<script>
+</script>
+{% endblock %}
+{% block css_ext %}
+    <link rel="stylesheet" href="/m/css/activity.css" type="text/css" media="screen, projection">
+{% endblock %}
+
+{% block content %}
+<div class="main-menu">
+    <div id="tabs">
+        {% for item in activities %}
+        <a {% if item.activity_type in active_tab %}class="active"{% endif %} href="{{ url_for('activity') }}?tab={{ item.activity_type }}">{{ item.tab_name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@
       "meta":     "https://ru.meta.stackoverflow.com",
       "chat":     "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
       "api_name": "ru.stackoverflow",
+      "language": "ru",
       "launch_date": 1449851367
     },
     {
@@ -14,6 +15,7 @@
       "meta":     "https://pt.meta.stackoverflow.com/",
       "chat":     "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha",
       "api_name": "pt.stackoverflow",
+      "language": "pt",
       "launch_date": 1431965114
     },
     {
@@ -22,6 +24,7 @@
       "meta":     "https://ja.meta.stackoverflow.com/",
       "chat":     "https://chat.stackexchange.com/rooms/20999/",
       "api_name": "ja.stackoverflow",
+      "language": "ja",
       "launch_date": 1418685144
     },
     {
@@ -30,6 +33,7 @@
       "meta": "https://es.meta.stackoverflow.com",
       "chat": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol",
       "api_name": "es.stackoverflow",
+      "language": "es",
       "launch_date": 1495050784
     }
   ]
