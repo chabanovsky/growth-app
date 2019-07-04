@@ -261,9 +261,14 @@ body {
     text-decoration: none;
 }
 
-.welcome .sos-plus {
-    font-size: 28px;
-    font-weight: bold;
+.welcome table {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.welcome table td img {
+    height: 158px;
+    weight: 158px;
 }
 
 .welcome .main-description,

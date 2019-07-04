@@ -11,8 +11,7 @@ from flask_babel import gettext, ngettext
 from sqlalchemy import and_, desc
 from sqlalchemy.sql import func
 
-from meta import app as application, db, db_session, engine, LANGUAGE, STACKOVERFLOW_HOSTNAME, STACKOVERFLOW_SITE_PARAM, \
-    INT_STACKOVERFLOW_SITE_PARAM
+from meta import app as application, db, db_session, engine
 from models import User
 from meta import STACKEXCHANGE_CLIENT_SECRET, STACKEXCHANGE_CLIENT_ID, STACKEXCHANGE_CLIENT_KEY
 
@@ -62,5 +61,5 @@ def no_way():
 @application.route("/welcome")
 @application.route("/welcome/")
 def welcome():
-    return render_template('welcome.html', language=LANGUAGE)
+    return render_template('welcome.html')
 

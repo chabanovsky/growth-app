@@ -1,22 +1,24 @@
-import csv
-import os
-import re
-from datetime import datetime
-
-import logging
-from meta import db, db_session, engine, STACKOVERFLOW_HOSTNAME
-from models import User
-from utils import print_progress_bar, print_association_setting
-from sqlalchemy.sql import func
-from sqlalchemy import and_, not_, select, exists, delete
-
-MINIMUM_VIEW_COUNT_TO_ADD = 30
+# encoding:utf-8
+from __future__ import print_function
 
 
-def init_db():
-    # import all modules here that might define models so that
-    # they will be registered properly on the metadata.  Otherwise
-    # you will have to import them first before calling init_db()
-    db.create_all()
-
-
+# Print iterations progress: http://stackoverflow.com/a/34325723/564240
+def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill=u'█'):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end='\r')
+    # Print New Line on Complete
+    if iteration == total:
+        print()

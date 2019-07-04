@@ -1,0 +1,40 @@
+{
+  "activities": [
+    {
+      "activity_type": 1,
+      "site_api_name": "ru.stackoverflow",
+      "tab_name": "Вопросы с ответами",
+      "title": "Вопрос со своим ответом",
+      "description": "<div>Вопросы с хорошими ответами — главная ценность сайта для посетителей. Давайтее создадим лучшую в мире прикладную базу знаний на русском языке по программированию.</div>",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--"
+    },
+    {
+      "activity_type": 2,
+      "site_api_name": "ru.stackoverflow",
+      "tab_name": "Переводы",
+      "title": "Перевод лучших вопросов на русский язык",
+      "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--"
+    },
+    {
+      "activity_type": 1,
+      "tab_name": "Preguntas con respuestas",
+      "site_api_name": "es.stackoverflow",
+      "title": "[ES]Перевод лучших вопросов на русский язык",
+      "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
+      "chat_url": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol"
+    },
+    {
+      "activity_type": 1,
+      "tab_name": "Perguntas com respostas",
+      "site_api_name": "pt.stackoverflow",
+      "title": "[PT]Перевод лучших вопросов на русский язык",
+      "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
+      "chat_url": "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha"
+    }
+  ]
+}

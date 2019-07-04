@@ -5,7 +5,7 @@ import json
 
 from flask import Flask, jsonify, render_template, g, url_for, redirect, request, session
 
-from meta import app as application, db_session, db, APP_URL, LANGUAGE
+from meta import app as application, db_session, db, APP_URL
 from models import User
 from meta import STACKEXCHANGE_CLIENT_SECRET, STACKEXCHANGE_CLIENT_ID, STACKEXCHANGE_CLIENT_KEY
 
@@ -17,7 +17,6 @@ STACKEXCHANGE_OAUTH_ME_ENDPOINT = "https://api.stackexchange.com/2.2/me"
 def get_redirect_url():
     return APP_URL + url_for("stackexcange_oauth_callback")
 
-
 @application.route("/oauth/logout")
 @application.route("/oauth/logout/")
 def logout_oauth():
@@ -28,6 +27,8 @@ def logout_oauth():
 @application.route("/oauth/start")
 @application.route("/oauth/start/")
 def start_oauth():
+    session["language"] = request.args.get("language")
+
     params = {
         "client_id": STACKEXCHANGE_CLIENT_ID,
         "scope": "write_access,no_expiry",
@@ -76,8 +77,9 @@ def login_oauth():
     if "access_token" not in session:
         return redirect(url_for("no_way"))
 
+
     params = {
-        "site": LANGUAGE + ".stackoverflow",
+        "site": session.get("language") + ".stackoverflow",
         "order": "desc",
         "sort": "reputation",
         "key": STACKEXCHANGE_CLIENT_KEY,

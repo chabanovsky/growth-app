@@ -1,0 +1,36 @@
+{
+  "sites": [
+    {
+      "name":     "Stack Overflow на русском",
+      "url":      "https://ru.stackoverflow.com/",
+      "meta":     "https://ru.meta.stackoverflow.com",
+      "chat":     "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "api_name": "ru.stackoverflow",
+      "launch_date": 1449851367
+    },
+    {
+      "name":     "Stack Overflow em Português",
+      "url":      "https://pt.stackoverflow.com/",
+      "meta":     "https://pt.meta.stackoverflow.com/",
+      "chat":     "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha",
+      "api_name": "pt.stackoverflow",
+      "launch_date": 1431965114
+    },
+    {
+      "name":     "スタック・オーバーフロー",
+      "url":      "https://ja.stackoverflow.com/",
+      "meta":     "https://ja.meta.stackoverflow.com/",
+      "chat":     "https://chat.stackexchange.com/rooms/20999/",
+      "api_name": "ja.stackoverflow",
+      "launch_date": 1418685144
+    },
+    {
+      "name": "Stack Overflow en español",
+      "url":  "https://es.stackoverflow.com",
+      "meta": "https://es.meta.stackoverflow.com",
+      "chat": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol",
+      "api_name": "es.stackoverflow",
+      "launch_date": 1495050784
+    }
+  ]
+}
