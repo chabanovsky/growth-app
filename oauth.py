@@ -45,7 +45,7 @@ def create_or_login(resp):
 @application.route('/openid/create-profile/', methods=['GET', 'POST'])
 def create_profile_openid():
     if g.user is not None or 'openid' not in session:
-        return redirect(url_for('index'))
+        return redirect(url_for('activity'))
     if request.method == 'POST':
         name = request.form['name']
         if not name:

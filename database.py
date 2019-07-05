@@ -10,7 +10,7 @@ import time
 
 import logging
 from meta import db, db_session, engine, STACKEXCHANGE_CLIENT_KEY
-from models import User, Site, SiteInfo, Post, DBModelAdder, Activity
+from models import User, Site, SiteInfo, Post, DBModelAdder, Activity, Activist
 from flask import jsonify
 from utils import print_progress_bar
 from sqlalchemy.sql import func
@@ -292,9 +292,26 @@ def load_sites(filename):
     adder.done()
 
 def load_activities(filename):
-    adder = DBModelAdder()
-    adder.start()
-    activities = list()
+
+    def load_coordinators(activity_id, coordinators):
+        for coordinator in coordinators:
+            adder = DBModelAdder()
+            adder.start()
+
+            user = User.by_account_id(coordinator)
+            print "User %s" % str(user)
+            if user is None:
+                print "Coordinator (%s) for activity (%s) was not found. Try to update next time." % (
+                str(coordinator), str(activity_id))
+                continue
+            if Activist.is_exist(adder, activity.id, user.id):
+                print "Coordinator (%s) for activity (%s) already exists." % (str(coordinator), str(activity_id))
+                adder.done()
+            activist = Activist(user.id, activity_id, Activist.role_coordinator)
+            adder.add(activist)
+            adder.done()
+            print "Added coordinator (%s) for activity (%s)." % (str(coordinator), str(activity_id))
+
     with open(filename) as json_file:
         data = json.load(json_file)
         for item in data["activities"]:
@@ -304,26 +321,51 @@ def load_activities(filename):
             title           = item["title"]
             description     = item["description"]
             meta_post_url   = item["meta_post_url"]
+            meta_post_title = item["meta_post_title"]
             chat_url        = item["chat_url"]
+            chat_name       = item["chat_name"]
+
+            coordinators    = list()
+            for coordinator in item["coordinators"]:
+                coordinators.append(int(coordinator["account_id"]))
 
             site = Site.by_api_name(site_api_name)
 
-            if Activity.is_exist(adder, site.id, activity_type):
+            pg_session = db_session()
+            activity = Activity.by_site_id_and_activity_type(site.id, activity_type)
+            if activity is not None:
                 print "Activity (%s;%s) found" % (str(activity_type), site_api_name)
+
+                activity.title = title
+                activity.tab_name = tab_name
+                activity.description = description
+                activity.meta_post_url = meta_post_url
+                activity.meta_post_title = meta_post_title
+                activity.chat_url = chat_url
+                activity.chat_name = chat_name
+
+                pg_session.add(activity)
+                pg_session.commit()
+                activity_id = activity.id
+                pg_session.close()
+                load_coordinators(activity_id, coordinators)
                 continue
 
-            activities.append(Activity(site.id,
+            activity = Activity(site.id,
                             title,
                             description,
                             activity_type,
                             meta_post_url,
+                            meta_post_title,
                             chat_url,
-                            tab_name))
-            print "Activity (%s;%s) added" % (str(activity_type), site_api_name)
-
-    adder.add_all(activities)
-    adder.done()
-
+                            chat_name,
+                            tab_name)
+            pg_session.add(activity)
+            pg_session.commit()
+            activity_id = activity.id
+            pg_session.close()
+            print "Activity (%s;%s) added with id %s" % (str(activity_type), site_api_name, str(activity_id))
+            load_coordinators(activity_id, coordinators)
 
 def load_site_posts(start_date=None):
     sites = Site.all()

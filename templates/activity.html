@@ -1,18 +1,138 @@
-{% extends "base.html" %} {% block js_ext %}
-<script>
-</script>
+{% extends "base.html" %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/activity.js"></script>
 {% endblock %}
 {% block css_ext %}
     <link rel="stylesheet" href="/m/css/activity.css" type="text/css" media="screen, projection">
 {% endblock %}
 
 {% block content %}
+
 <div class="main-menu">
     <div id="tabs">
         {% for item in activities %}
-        <a {% if item.activity_type in active_tab %}class="active"{% endif %} href="{{ url_for('activity') }}?tab={{ item.activity_type }}">{{ item.tab_name }}</a>
+        <a {% if item.activity_type == tab %}class="active"{% endif %} href="{{ url_for('activities') }}?tab={{ item.activity_type }}">{{ item.tab_name }}</a>
         {% endfor %}
     </div>
 </div>
 
+{% if paginator.page == 1 %}
+<div class="activity">
+    <div style="display: none;" id="activity-id">{{ active.id }}</div>
+    <div class="info">
+        <div class="title">
+            {{ active.title }}
+        </div>
+        <div class="description">{{ active.description|safe }}</div>
+        <div class="submit-box">
+            <div class="submit">
+                <input id="submit-action">
+                <a class="button" id="submit-action-button">{{ gettext('Submit') }}</a>
+                <div class="help">
+                    {{ gettext('Past a link to a post in the input above and press "Submit".') }}
+                </div>
+            </div>
+        </div>
+
+        <div class="coordinators">
+            <h4>{{ gettext('Activity Coordinators') }}</h4>
+            <div>
+                {% if coordinators|length > 0 %}
+                    {% for coordinator in coordinators %}
+                    <a target="_blank" href="{{ coordinator.profile_link }}" class="profile">
+                        <div class="gravatar-wrapper-24" title="{{ coordinator.username }}">
+                            <img src="{{ coordinator.profile_image }}" alt="" width="24" height="24" class="avatar">
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    {{ gettext('Nobody here. Contact @NicolasChabanovsky on The Terminal to be a coordinator of the activity.') }}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="activists">
+            <h4>{{ gettext('Activists') }}</h4>
+            <div>
+                {% if activists|length > 0 %}
+                    {% for activist in activists %}
+                    <a target="_blank" href="{{ activist.profile_link }}" class="profile">
+                        <div class="gravatar-wrapper-24" title="{{ activist.username }}">
+                            <img src="{{ activist.profile_image }}" alt="" width="24" height="24" class="avatar">
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    {{ gettext('Nobody here. Submit something and be the first!') }}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="stats">
+
+        </div>
+
+        <div class="links">
+            <h4>{{ gettext('Related Links:') }}</h4>
+            <table>
+                <tr>
+                    <td>
+                        <div>
+                            {{ gettext('Meta:') }}
+                        </div>
+                    </td>
+                    <td>
+                        <a traget="_blank" href="{{ active.meta_post_url }}">{{ active.meta_post_title }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            {{ gettext('Chat:') }}
+                        </div>
+                    </td>
+                    <td>
+                        <a traget="_blank" href="{{ active.chat_url }}">{{ active.chat_name }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            {{ gettext('General chat:') }}
+                        </div>
+                    </td>
+                    <td>
+                        <a traget="_blank" href="https://chat.stackexchange.com/rooms/84778/the-terminal">{{ gettext('The Terminal') }}</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="action-head">
+        <div class="sub-menu">
+            <div class="list_switcher">
+                <a {% if "reviewed" in review_selected %}class="selected"{% endif %} href="{{ base_url }}&review_selected=reviewed" >{{ gettext('Reviewed actions') }}</a>
+                <a {% if "reviewing" in review_selected %}class="selected"{% endif %}  href="{{ base_url }}&review_selected=reviewing" >{{ gettext('Waiting for review') }}</a>
+                <a {% if "declined" in review_selected %}class="selected"{% endif %}  href="{{ base_url }}&review_selected=declined" >{{ gettext('Declined actions') }}</a>
+            </div>
+        </div>
+        <div class="action-content">
+            {% if paginator.items|length > 0 %}
+                {% for item in paginator.items %}
+                    <div><a href="{{ item.link }}">{{ item.link }}</a></div>
+                {% endfor %}
+            {% else %}
+                {% if "reviewed" in review_selected %}
+                    {{ gettext('Nothing has been done. Do not wait, just do it!') }}
+                {% else%}
+                    {{ gettext('Everything has been reviewed! Do not wait, add more!') }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endif %}
+
+{% include 'paginator.html' %}
 {% endblock %}

@@ -26,7 +26,15 @@
     {% block body %}
     <div id="header" class="header">
         {% block header %}
-        <h2><a href="/">{{ gettext('Stack Overflow Association Tools') }}</a></h2>
+        <div class="logo">
+            <a></a>
+        </div>
+        <div id="nav">
+            <a {% if "activities" in section %}class="selected"{% endif %} id="nav_activities" href="{{ url_for('activities') }}">{{ gettext('Activities') }}</a>
+            <a {% if "events" in section %}class="selected"{% endif %} id="nav_events" href="{{ url_for('events') }}">{{ gettext('Events') }}</a>
+            <a {% if "activists" in section %}class="selected"{% endif %} id="nav_activists" href="{{ url_for('activists') }}">{{ gettext('Activists') }}</a>
+            <a {% if "other" in section %}class="selected"{% endif %} id="nav_other" href="{{ url_for('other') }}">{{ gettext('Other') }}</a>
+        </div>
         {% endblock %}
     </div>
     <div id="content">

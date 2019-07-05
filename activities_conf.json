@@ -7,7 +7,14 @@
       "title": "Вопрос со своим ответом",
       "description": "<div>Вопросы с хорошими ответами — главная ценность сайта для посетителей. Давайтее создадим лучшую в мире прикладную базу знаний на русском языке по программированию.</div>",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
-      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--"
+      "meta_post_title": "Как ответить на свой вопрос?",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Stack Overflow на русском",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
     },
     {
       "activity_type": 2,
@@ -16,7 +23,14 @@
       "title": "Перевод лучших вопросов на русский язык",
       "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
-      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--"
+      "meta_post_title": "Нужны ли переводы на Stack Overflow? Если да, какой вы видите систему?",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Stack Overflow на русском",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
     },
     {
       "activity_type": 1,
@@ -25,7 +39,14 @@
       "title": "[ES]Перевод лучших вопросов на русский язык",
       "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
-      "chat_url": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol"
+      "meta_post_title": "Нужны ли переводы на Stack Overflow? Если да, какой вы видите систему?",
+      "chat_url": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol",
+      "chat_name": "Stack Overflow en español",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
     },
     {
       "activity_type": 1,
@@ -34,7 +55,14 @@
       "title": "[PT]Перевод лучших вопросов на русский язык",
       "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
-      "chat_url": "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha"
+      "meta_post_title": "Нужны ли переводы на Stack Overflow? Если да, какой вы видите систему?",
+      "chat_url": "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha",
+      "chat_name": "Estouro de Pilha",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
     }
   ]
 }

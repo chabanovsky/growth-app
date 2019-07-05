@@ -144,4 +144,4 @@ def login_oauth():
         db.session.commit()
 
     session["account_id"] = account_id
-    return redirect(url_for("activity"))
+    return redirect(url_for("activities"))

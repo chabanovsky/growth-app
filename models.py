@@ -39,8 +39,10 @@ class User(db.Model):
     reputation  = db.Column(db.Integer)
     profile_image = db.Column(db.String(200))
     profile_link= db.Column(db.String(200))
+    creation_date= db.Column(db.DateTime, nullable=False)
 
     def __init__(self, account_id, user_id, username, reputation, profile_image, profile_link, role="user", is_banned=False):
+        self.creation_date = datetime.datetime.now()
         self.account_id = account_id
         self.user_id    = user_id
         self.username   = username
@@ -52,6 +54,18 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % str(self.id)
+
+    @staticmethod
+    def is_exist_with_account_id(adder, account_id):
+        return True if adder.session.query(func.count(User.id)).filter_by(account_id=account_id).scalar() > 0 else False
+
+    @staticmethod
+    def by_account_id(account_id):
+        session = db_session()
+        query = session.query(User).filter_by(account_id=account_id).order_by(desc(User.creation_date))
+        result = query.first()
+        session.close()
+        return result
 
 class Site(db.Model):
     __tablename__ = 'site'
@@ -227,26 +241,39 @@ class Activity(db.Model):
     id      = db.Column(db.Integer, primary_key=True)
     site_id = db.Column(db.Integer, ForeignKey('site.id'))
     title   = db.Column(db.String)
-    description = db.Column(db.String)
+    description     = db.Column(db.String)
     creation_date   = db.Column(db.DateTime, nullable=False)
     activity_type   = db.Column(db.Integer)
     meta_post_url   = db.Column(db.String)
-    chat_url    = db.Column(db.String)
+    meta_post_title = db.Column(db.String)
+    chat_url        = db.Column(db.String)
+    chat_name       = db.Column(db.String)
+
     tab_name    = db.Column(db.String)
 
-    def __init__(self, site_id, title, description, activity_type, meta_post_url, chat_url, tab_name):
+    def __init__(self, site_id, title, description, activity_type, meta_post_url, meta_post_title, chat_url, chat_name, tab_name):
         self.creation_date = datetime.datetime.now()
         self.site_id = site_id
         self.title = title
         self.description = description
         self.activity_type = activity_type
         self.meta_post_url = meta_post_url
+        self.meta_post_title = meta_post_title
         self.chat_url = chat_url
+        self.chat_name = chat_name
         self.tab_name = tab_name
 
     @staticmethod
     def is_exist(adder, site_id, activity_type):
         return True if adder.session.query(func.count(Activity.id)).filter_by(site_id=site_id).filter_by(activity_type=activity_type).scalar() > 0 else False
+
+    @staticmethod
+    def by_site_id_and_activity_type(site_id, activity_type):
+        session = db_session()
+        query = session.query(Activity).filter_by(site_id=site_id).filter_by(activity_type=activity_type).order_by(asc(Activity.creation_date))
+        result = query.first()
+        session.close()
+        return result
 
     @staticmethod
     def all(site_id):
@@ -256,7 +283,6 @@ class Activity(db.Model):
         session.close()
         return result
 
-
     def __repr__(self):
         return '<Activity %r>' % str(self.id)
 
@@ -264,10 +290,37 @@ class Activity(db.Model):
 class Activist(db.Model):
     __tablename__       = 'activist'
 
+    role_coordinator = 1
+    role_thought_leader = 2
+    role_the_head = 3
+
     id      = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('user.id'))
     activity_id = db.Column(db.Integer, ForeignKey('activity.id'))
     role        = db.Column(db.Integer)
+    creation_date= db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user_id, activity_id, role):
+        self.creation_date  = datetime.datetime.now()
+        self.user_id        = user_id
+        self.activity_id    = activity_id
+        self.role           = role
+
+    def __repr__(self):
+        return '<activist %r>' % str(self.id)
+
+    @staticmethod
+    def coordinators(activity_id):
+        session = db_session()
+        query = session.query(User).join(Activist).filter_by(activity_id=activity_id, role=Activist.role_coordinator).order_by(asc(Activist.creation_date))
+        result = query.all()
+        session.close()
+        return result
+
+    @staticmethod
+    def is_exist(adder, activity_id, user_id):
+        return True if adder.session.query(func.count(Activist.id)).filter_by(activity_id=activity_id, user_id=user_id).scalar() > 0 else False
+
 
 class Action(db.Model):
     __tablename__       = 'action'
@@ -275,14 +328,53 @@ class Action(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     user_id     = db.Column(db.Integer, ForeignKey('user.id'))
     activity_id = db.Column(db.Integer, ForeignKey('activity.id'))
-    creaton_date= db.Column(db.DateTime, nullable=False)
+    creation_date= db.Column(db.DateTime, nullable=False)
 
-    post_id     = db.Column(db.Integer, ForeignKey('post.id'))
+    post_id     = db.Column(db.Integer, ForeignKey('post.id'), nullable=True)
     link        = db.Column(db.String)
 
     valid       = db.Column(db.Boolean, default=False)
     verified    = db.Column(db.Boolean, default=False)
-    verified_date= db.Column(db.DateTime, nullable=False)
+    verified_date= db.Column(db.DateTime, nullable=True)
+
+    def __init__(self, user_id, activity_id, post_id, link):
+        self.user_id    = user_id
+        self.activity_id= activity_id
+        self.post_id    = post_id
+        self.link       = link
+        self.creation_date = datetime.datetime.now()
+
+    def __repr__(self):
+        return '<Action %r>' % str(self.id)
+
+    @staticmethod
+    def all_for_activity(activity_id):
+        session = db_session()
+        query = session.query(Action).filter_by(activity_id=activity_id).order_by(asc(Action.creation_date))
+        result = query.all()
+        session.close()
+        return result
+
+    @staticmethod
+    def activists(activity_id):
+        session = db_session()
+        query = session.query(User).join(Action).filter(Action.activity_id==activity_id).distinct()
+        result = query.all()
+        session.close()
+        return result
+
+    @staticmethod
+    def last_by_user(user_id):
+        session = db_session()
+        query = session.query(Action).filter_by(user_id=user_id).order_by(desc(Action.creation_date))
+        result = query.first()
+        session.close()
+        return result
+
+    @staticmethod
+    def is_exist(adder, activity_id, link):
+        return True if adder.session.query(func.count(Action.id)).filter_by(activity_id=activity_id).filter_by(link=link).scalar() > 0 else False
+
 
 class Verification(db.Model):
     __tablename__       = 'verification'

@@ -31,6 +31,113 @@ body {
     height: auto;
 }
 
+#nav {
+    width: 350px;
+    float: right;
+    margin: 30px 0px 16px 0px;
+}
+
+#nav a.selected {
+    background-color: #F48024;
+}
+
+.activity .info .title {
+    float: left;
+    width: 100%;
+    font-size: 23px;
+    font-weight: bold;
+    margin: 10px 0 15px 0;
+}
+
+.activity .info .links a {
+    color: #3060A8;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0px 0 10px 0px;
+
+}
+
+.activity .info .submit-box {
+    width: 100%;
+    float: left;
+    padding: 30px 0px;
+}
+
+.activity .info .submit-box .submit {
+    background-color: #FFF8DC;
+    border: 1px solid #E0DCBF;
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1),0 1px 0 #ffffff inset;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 0 #ffffff inset;
+    border-image: initial;
+    padding: 15px 0;
+}
+
+.activity .info .submit-box .submit input {
+    font-size: 15px;
+    padding: 5px 10px;
+    margin: 0px 15px 0px 15px;
+    width: 500px;
+}
+
+.activity .info .submit-box .submit .button {
+    font-size: 13px;
+    float: right;
+    margin-right: 15px;
+}
+
+.activity .info .submit-box .submit .help {
+    font-size: 14px;
+    padding: 15px 15px 0px 15px;
+}
+
+.button {
+    white-space: nowrap;
+    color: #FFF;
+    background-color: #0095ff;
+    border-color: #07c;
+    box-shadow: inset 0 1px 0 #66bfff;
+    display: inline-block;
+    position: relative;
+    padding: .61538462em 1em;
+    vertical-align: middle;
+    min-height: 2.46153846em;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-family: inherit;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    outline: none;
+    touch-action: manipulation;
+    transition: all .1s ease-in;
+}
+
+.activity .info .links a:hover {
+    text-decoration: underline;
+}
+
+.activity .info .links h4 {
+    margin: 15px 0px 5px 0;
+}
+
+#nav a {
+    background-color: gray;
+    color: #FAFAFA;
+    display: block;
+    float: left;
+    font-size: 14px;
+    font-weight: normal;
+    height: 25px;
+    line-height: 30px;
+    margin-left: 10px;
+    padding: 0 12px 3px;
+    text-decoration: none;
+}
+
 .tags {
     line-height: 18px;
     float: left;
@@ -356,11 +463,41 @@ gravatar-wrapper-24 {
     margin: 0 auto;
 }
 
+.activity .info .profile {
+    float: left;
+    margin-top: -10px;
+    margin-right: 0;
+    height: 34px;
+    background-color: transparent;
+    padding-right: 5px;
+}
+
+.activity .info .profile .avatar {
+    padding: 4px 4px 4px 0;
+    height: 24px;
+    width: 24px;
+    margin-top: 1px;
+}
+
+.activity .info {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #e4e6e8;
+    padding: 0 0 25px 0;
+}
+
+.coordinators>div,
+.activists>div {
+    float: left;
+    width: 100%;
+    margin: 0 0 15px 0;
+}
+
 .topbar .topbar-links .links-container {
     vertical-align: top;
     padding-top: 10px;
     font-size: 13px;
-    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif !important;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
     text-decoration: none;
 }
 
@@ -416,4 +553,28 @@ gravatar-wrapper-24 {
     margin-bottom: 10px;
     height: 40px;
     border-bottom: 1px solid #e4e6e8;
+}
+
+.activity .action-head .sub-menu {
+    width: 100%;
+    float: left;
+    margin: 15px 0px 6px 0px;
+}
+
+.activity .action-head .sub-menu .list_switcher a {
+    background-color: gray;
+    color: #FAFAFA;
+    display: block;
+    float: left;
+    font-size: 12px;
+    font-weight: normal;
+    height: 25px;
+    line-height: 30px;
+    margin-left: 10px;
+    padding: 0 12px 3px;
+    text-decoration: none;
+}
+
+.activity .action-head .sub-menu .list_switcher a.selected {
+    background-color: #F48024;
 }
