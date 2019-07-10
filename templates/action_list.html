@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/action_list.js"></script>
+{% endblock %}
+{% block content %}
+
+{% include 'activity_tabs.html' %}
+
+<div class="action_list">
+    <div style="display: none;" id="activity-id">{{ active.id }}</div>
+    <div class="info">
+        <div class="coordinators">
+            <h4>{{ gettext('Activity Coordinators') }}</h4>
+            <div>
+                {% if coordinators|length > 0 %}
+                    {% for coordinator in coordinators %}
+                    <a target="_blank" href="{{ coordinator.profile_link }}" class="profile">
+                        <div class="gravatar-wrapper-24" title="{{ coordinator.username }}">
+                            <img src="{{ coordinator.profile_image }}" alt="" width="24" height="24" class="avatar">
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    {{ gettext('Nobody here. Contact @NicolasChabanovsky on The Terminal to be a coordinator of the activity.') }}
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="action-head">
+        <div class="sub-menu">
+            <div class="list_switcher">
+                <a {% if "reviewed" in review_selected %}class="selected"{% endif %} href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewed') }}" >{{ gettext('Reviewed actions') }}</a>
+                <a {% if "reviewing" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewing') }}" >{{ gettext('Waiting for review') }}</a>
+                <a {% if "rejected" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='rejected') }}" >{{ gettext('Rejected actions') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="action-content-container">
+    {% if paginator.items|length > 0 %}
+        {% for item in paginator.items %}
+            <div class="action-content">
+                <div class="author">
+                    <a target="_blank" href="{{ item.author.profile_link }}" class="profile">
+                        <div class="gravatar-wrapper-24" title="{{ item.author.username }}">
+                            <img src="{{ item.author.profile_image }}" alt="" width="24" height="24" class="avatar">
+                        </div>
+                    </a>
+                </div>
+                <div class="link">
+                    <a target="_blank" href="{{ item.link }}">{{ item.link }}</a>
+                </div>
+                <div class="actions">
+                    {% if not "reviewed" in review_selected %}
+                        <a class="verify button" href="{{ url_for('verify_action', action_id=item.id) }}?valid=True">{{ gettext("Looks good!") }}</a>
+                    {% endif %}
+                    {% if not "rejected" in review_selected %}
+                        <a class="verify button" href="{{ url_for('verify_action', action_id=item.id) }}?valid=False">{{ gettext("Reject") }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% if "reviewed" in review_selected %}
+            {{ gettext('Nothing has been done. Do not wait, just do it!') }}
+        {% else%}
+            {{ gettext('Everything has been reviewed! Do not wait, add more!') }}
+        {% endif %}
+    {% endif %}
+</div>
+
+
+</div>
+
+
+{% include 'paginator.html' %}
+{% endblock %}

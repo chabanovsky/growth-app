@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/events.js"></script>
+{% endblock %}
+{% block content %}
+<div class="main-menu">
+    <div id="event-type" style="display: none;">{{ event_type }}</div>
+    <div id="tabs">
+        <a {% if 'upcoming' in event_type %}class="active"{% endif %} href="{{ url_for('events', event_type='upcoming') }}">{{ gettext('Upcoming') }}</a>
+        <a {% if 'past' in event_type %}class="active"{% endif %} href="{{ url_for('events', event_type='past') }}">{{ gettext('Past') }}</a>
+        <a {% if 'new' in event_type %}class="active"{% endif %} href="{{ url_for('events', event_type='new') }}">{{ gettext('Schedule Event') }}</a>
+    </div>
+</div>
+<div class="events">
+    <div class="info">
+        <div class="description">
+        </div>
+    </div>
+    {% if 'new' in event_type %}
+    <div class="new-event-box">
+        <div class="new-event">
+            <table>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Title') }}</div>
+                    </td>
+                    <td>
+                        <input id="title">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Date & time') }}</div>
+                    </td>
+                    <td>
+                        <input id="date-time" type="datetime-local">
+                    </td>
+                </tr>
+                {% if 'meetups' in tab %}
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Location') }}</div>
+                    </td>
+                    <td>
+                        <input id="location">
+                    </td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Link to post on meta') }}</div>
+                    </td>
+                    <td>
+                        <input id="meta-post-link">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Link to chat') }}</div>
+                    </td>
+                    <td>
+                        <input id="chat-link">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Short description') }}</div>
+                    </td>
+                    <td>
+                        <textarea id="description"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        <a class="button" id="submit">{{ gettext('Submit') }}</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="event-container">
+        {% for event in paginator.items %}
+            <div class="event">
+                <div class="head">
+                    <div class="coordinator">
+                        <a target="_blank" href="{{ event.coordinator.profile_link }}" class="profile">
+                            <div class="gravatar-wrapper-24" title="{{ event.coordinator.username }}">
+                                <img src="{{ event.coordinator.profile_image }}" alt="" width="24" height="24" class="avatar">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="title">{{ event.title }}</div>
+                </div>
+                <div class="second-line">
+                    <div class="date-time">{{ event.date }}</div>
+                    <div class="location">{{ event.location }}</div>
+                </div>
+                <div class="attendees">
+                    {% for attendee in event.attendees %}
+                        <a target="_blank" href="{{ attendee.profile_link }}" class="profile">
+                            <div class="gravatar-wrapper-24" title="{{ attendee.username }}">
+                                <img src="{{ attendee.profile_image }}" alt="" width="24" height="24" class="avatar">
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% if 'new' not in event_type %}
+{% include 'paginator.html' %}
+{% endif %}
+{% endblock %}

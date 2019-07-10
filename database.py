@@ -24,7 +24,7 @@ SE_POST_FILTER       = '!bN4djS-XBrJSha'
 
 def init_db():
     # import all modules here that might define models so that
-    # they will be registered properly on the metadata.  Otherwise
+    # they will be registered properly on the metadata. Otherwise
     # you will have to import them first before calling init_db()
     db.create_all()
 
@@ -307,7 +307,7 @@ def load_activities(filename):
             if Activist.is_exist(adder, activity.id, user.id):
                 print "Coordinator (%s) for activity (%s) already exists." % (str(coordinator), str(activity_id))
                 adder.done()
-            activist = Activist(user.id, activity_id, Activist.role_coordinator)
+            activist = Activist.coordinator(user.id, activity_id)
             adder.add(activist)
             adder.done()
             print "Added coordinator (%s) for activity (%s)." % (str(coordinator), str(activity_id))

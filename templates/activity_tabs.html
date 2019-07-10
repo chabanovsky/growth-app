@@ -1,0 +1,7 @@
+<div class="main-menu">
+    <div id="tabs">
+        {% for item in activities %}
+        <a {% if item.activity_type == tab %}class="active"{% endif %} href="{{ url_for('activities') }}?tab={{ item.activity_type }}">{{ item.tab_name }}</a>
+        {% endfor %}
+    </div>
+</div>

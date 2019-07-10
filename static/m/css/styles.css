@@ -49,7 +49,11 @@ body {
     margin: 10px 0 15px 0;
 }
 
-.activity .info .links a {
+.activity .all-actions {
+    padding: 15px 0 0px 0;
+}
+.activity .all-actions a,
+.activity .links a {
     color: #3060A8;
     text-decoration: none;
     cursor: pointer;
@@ -57,12 +61,20 @@ body {
 
 }
 
+.events .new-event-box,
 .activity .info .submit-box {
     width: 100%;
     float: left;
     padding: 30px 0px;
 }
 
+.events .new-event-box {
+    width: 100%;
+    float: left;
+    padding: 10px 0px;
+}
+
+.events .new-event-box .new-event,
 .activity .info .submit-box .submit {
     background-color: #FFF8DC;
     border: 1px solid #E0DCBF;
@@ -71,6 +83,43 @@ body {
     box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 0 #ffffff inset;
     border-image: initial;
     padding: 15px 0;
+}
+
+.events .new-event-box .new-event {
+    padding: 15px 7px;
+}
+.events .new-event-box .new-event input,
+.events .new-event-box .new-event textarea,
+.events .new-event-box .new-event select {
+    margin: 0px 10px;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.events .new-event-box .new-event select,
+.events .new-event-box .new-event input[type=datetime-local] {
+    width: 180px;
+    float: left;
+}
+.events .new-event-box .new-event select {
+    width: 202px;
+}
+
+.events .new-event-box .new-event input,
+.events .new-event-box .new-event textarea {
+    width: 480px;
+    float: right;
+}
+
+.events .new-event-box .new-event textarea {
+    height: 80px;
+    width: 482px;
+}
+
+.events .new-event-box .new-event .button {
+    font-size: 13px;
+    float: left;
+    margin: 15px 10px 0;
 }
 
 .activity .info .submit-box .submit input {
@@ -317,7 +366,6 @@ body {
     width: calc(100% - 40px);
 }
 
-
 .button {
     white-space: nowrap;
     color: #FFF;
@@ -472,6 +520,7 @@ gravatar-wrapper-24 {
     padding-right: 5px;
 }
 
+.action_list .action-content-container .action-content .author .profile .avatar,
 .activity .info .profile .avatar {
     padding: 4px 4px 4px 0;
     height: 24px;
@@ -555,13 +604,13 @@ gravatar-wrapper-24 {
     border-bottom: 1px solid #e4e6e8;
 }
 
-.activity .action-head .sub-menu {
+.action_list .action-head .sub-menu {
     width: 100%;
     float: left;
     margin: 15px 0px 6px 0px;
 }
 
-.activity .action-head .sub-menu .list_switcher a {
+.action_list .action-head .sub-menu .list_switcher a {
     background-color: gray;
     color: #FAFAFA;
     display: block;
@@ -570,11 +619,44 @@ gravatar-wrapper-24 {
     font-weight: normal;
     height: 25px;
     line-height: 30px;
-    margin-left: 10px;
+    margin-right: 10px;
     padding: 0 12px 3px;
     text-decoration: none;
 }
 
-.activity .action-head .sub-menu .list_switcher a.selected {
+.action_list .action-head .sub-menu .list_switcher a.selected {
     background-color: #F48024;
+}
+
+.action_list .action-content-container {
+    float: left;
+    width: 100%;
+}
+.action_list .action-content-container .action-content .author{
+    float: left;
+    width: 30px;
+    margin-top: -7px;
+}
+.action_list .action-content-container .action-content {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #e4e6e8;
+    margin: 5px 0 10px;
+}
+.action_list .action-content-container .action-content .link {
+    float:left;
+    width: 450px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 1.2em;
+    white-space: nowrap;
+}
+.action_list .action-content-container .action-content .actions {
+    float: right;
+}
+.action_list .action-content-container .action-content .button {
+    font-weight: 100;
+    font-size: 12px;
+    float: right;
+    margin: -6px 0 3px 10px;
 }

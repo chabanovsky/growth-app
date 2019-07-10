@@ -13,14 +13,15 @@ from sqlalchemy import and_, desc
 from sqlalchemy.sql import func
 
 from meta import app as application, db, db_session, engine
-from models import User, Activity, Site, Action, Activist, DBModelAdder
-from pagination import action_pagination
+from models import User, Activity, Site, Action, Activist, DBModelAdder, Verification, Event
+from pagination import action_pagination, event_paginator
 from meta import STACKEXCHANGE_CLIENT_SECRET, STACKEXCHANGE_CLIENT_ID, STACKEXCHANGE_CLIENT_KEY
 
 STACKEXCHANGE_ADD_COMMENT_ENDPOINT = "https://api.stackexchange.com/2.2/posts/{id}/comments/add"
 STACKEXCHANGE_ANSWER_API_ENDPOINT = "https://api.stackexchange.com/2.2/answers/{id}/"
 STACKEXCHANGE_QUESTION_API_ENDPOINT = "https://api.stackexchange.com/2.2/questions/{id}/"
 ACTION_TIMEOUT = 5
+ACTIVITIES_SECTION_NAME = "activities"
 
 LOGOUT_CASES = [401, 402, 403, 405, 406]
 LOGOUT_MSG = gettext(
@@ -54,55 +55,46 @@ def activities():
         return redirect(url_for('welcome'))
 
     activities = Activity.all(g.site.id)
-
-    page = max(int(request.args.get("page", "1")), 1)
     tab = max(int(request.args.get("tab", "1")), 1)
-    review_selected = request.args.get("review_selected", None)
-    if review_selected is None or review_selected not in ("reviewed", "reviewing", "declined"):
-        review_selected = "reviewed"
 
     base_url = url_for("activities") + "?tab=" + str(tab)
     for activity in activities:
         if activity.activity_type == tab:
             active = activity
 
-    paginator = action_pagination(
-        active,
-        page,
-        review_selected)
-
     activists    = Action.activists(active.id)
     coordinators = Activist.coordinators(active.id)
     return render_template('activity.html',
-                           section="activities",
+                           section=ACTIVITIES_SECTION_NAME,
                            coordinators=coordinators,
                            activists=activists,
                            activities=activities,
                            active=active,
                            base_url=base_url,
-                           tab=tab,
-                           actions_for_review=[],
-                           reviewed_actions=[],
-                           review_selected=review_selected,
-                           paginator=paginator)
+                           tab=tab)
 
-@application.route("/events")
-@application.route("/events/")
-def events():
-    return render_template('no_way.html',
-                           section="events")
+
+@application.route("/events/<event_type>")
+@application.route("/events/<event_type>/")
+def events(event_type):
+    if event_type not in ("upcoming", "past", "new"):
+        event_type = "upcoming"
+    page = max(int(request.args.get("page", "1")), 1)
+    paginator = event_paginator(event_type, page)
+    if paginator is not None:
+        for index in range(len(paginator.items)):
+            paginator.items[index].coordinator = User.by_id(paginator.items[index].created_by)
+            paginator.items[index].attendees = Activist.attendees(paginator.items[index].id)
+    return render_template('events.html',
+                           section="events",
+                           event_type=event_type,
+                           paginator=paginator)
 
 @application.route("/activists")
 @application.route("/activists/")
 def activists():
     return render_template('no_way.html',
                            section="activists")
-
-@application.route("/other")
-@application.route("/other/")
-def other():
-    return render_template('no_way.html',
-                           section="other")
 
 @application.route("/no-way")
 @application.route("/no-way/")
@@ -116,22 +108,106 @@ def welcome():
     return render_template('welcome.html')
 
 
-@application.route("/api/submit_action", endpoint="submit_action")
-@application.route("/api/submit_action/", endpoint="submit_action")
-def submit_action():
-    access_token = session.get("access_token", None)
-    if g.user is None or access_token is None:
+@application.route("/actions/<activity_type>/<review_selected>", endpoint="action_list")
+@application.route("/actions/<activity_type>/<review_selected>/", endpoint="action_list")
+def action_list(activity_type, review_selected):
+    if g.user is None:
+        return redirect(url_for('welcome'))
+
+    activity_type = int(activity_type)
+
+    activities = Activity.all(g.site.id)
+    active = None
+    for activity in activities:
+        if activity.activity_type == activity_type:
+            active = activity
+
+    if active is None:
         abort(404)
 
-    activity_id = int(request.args.get("activity_id", "-1"))
-    link = request.args.get("link", None)
-    if activity_id <=0 or link is None:
+    page = max(int(request.args.get("page", "1")), 1)
+    if review_selected is None or review_selected not in ("reviewed", "reviewing", "rejected"):
+        review_selected = "reviewed"
+
+    coordinators = Activist.coordinators(active.id)
+    paginator = action_pagination(
+        active,
+        page,
+        review_selected)
+    for index in range(len(paginator.items)):
+        paginator.items[index].author = User.by_id(paginator.items[index].user_id)
+
+    return render_template('action_list.html',
+                           activities=activities,
+                           active=active,
+                           section=ACTIVITIES_SECTION_NAME,
+                           coordinators=coordinators,
+                           review_selected=review_selected,
+                           paginator=paginator,
+                           tab=activity_type,
+                           base_url=url_for(
+                               "action_list",
+                               activity_type=activity_type,
+                               review_selected=review_selected))
+
+
+@application.route("/api/verify_action/<action_id>", endpoint="verify_action")
+@application.route("/api/verify_action/<action_id>/", endpoint="verify_action")
+def verify_action(action_id):
+    if g.user is None:
+        abort(404)
+
+    action_id = int(action_id)
+    is_valid = request.args.get("valid", None)
+    if action_id <= 0 or is_valid is None:
         return jsonify(**{
             "status": False,
             "msg": gettext("Wrong params")
         })
+    try:
+        is_valid = json.loads(request.args.get("valid").lower())
+    except:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Wrong params")
+        })
+    print is_valid, request.args.get("valid", None)
+    action = Action.by_id(action_id)
+    if action is None:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("There are no action with this id.")
+        })
 
-    unquoted = urllib.unquote(link)
+    verification = Verification.by_user_and_action(g.user.id, action_id)
+    if verification is None:
+        verification = Verification(g.user.id, action_id, is_valid)
+    else:
+        verification.is_valid = is_valid
+
+    pg_session = db_session()
+    pg_session.add(verification)
+    pg_session.commit()
+    pg_session.close()
+
+    return jsonify(**{
+        "status": True,
+        "msg": gettext("Action was reviewed. Thank you!")
+    })
+
+@application.route("/api/submit_action", endpoint="submit_action")
+@application.route("/api/submit_action/", endpoint="submit_action")
+def submit_action():
+    if g.user is None:
+        abort(404)
+
+    activity_id = int(request.args.get("activity_id", "-1"))
+    link = request.args.get("link", None)
+    if activity_id <= 0 or link is None:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Wrong params")
+        })
 
     last = Action.last_by_user(g.user.id)
     if last is not None and (datetime.datetime.now() - last.creation_date).total_seconds() < ACTION_TIMEOUT:
@@ -155,4 +231,73 @@ def submit_action():
     return jsonify(**{
         "status": True,
         "msg": gettext("Action was added. It will be reviewed soon. Thank you!")
+    })
+
+
+@application.route("/api/submit_event", endpoint="submit_event", methods=['GET', 'POST'])
+@application.route("/api/submit_event/", endpoint="submit_event", methods=['GET', 'POST'])
+def submit_action():
+    if g.user is None:
+        abort(404)
+
+    data = request.get_json(force=True)
+    location = ""
+    description = data['description']
+    meta = data['meta']
+    chat = data['chat']
+    date = data['date']
+    tab = data['tab']
+    title = data['title']
+
+    if len(description) == 0 or\
+        len(meta) == 0 or\
+        len(chat) == 0 or\
+        len(date) == 0 or\
+        len(tab) == 0 or\
+        len(title) == 0:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Invalid params.")
+        })
+    try:
+        date = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M")
+    except:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Invalid date")
+        })
+    try:
+        meta_post_id = int(re.findall('\d+', meta)[0])
+    except:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Invalid meta url")
+        })
+
+    event = Event.by_meta_post_id(meta_post_id)
+    if event is not None:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("This event already exists")
+        })
+
+    if tab == "meetups":
+        event_type = Event.event_type_meetup
+        location = data['location']
+        if len(location) == 0:
+            return jsonify(**{
+                "status": False,
+                "msg": gettext("Invalid params.")
+            })
+    else:
+        event_type = Event.event_type_webcast
+    event = Event(event_type, g.user.id, date, title, description, location, meta, meta_post_id, chat)
+    pg_session = db_session()
+    pg_session.add(event)
+    pg_session.commit()
+    pg_session.close()
+
+    return jsonify(**{
+        "status": True,
+        "msg": gettext("Event has been added. Thank you!")
     })

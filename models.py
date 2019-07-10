@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, ColumnDefault
 from meta import app as application, db, db_session
 from sqlalchemy import and_, or_, desc, asc, bindparam, text, Interval
-from sqlalchemy.sql import func, select, update, literal_column, column, join
+from sqlalchemy.sql import func, case, select, update, literal_column, column, join
 
 class DBModelAdder:
 
@@ -63,6 +63,14 @@ class User(db.Model):
     def by_account_id(account_id):
         session = db_session()
         query = session.query(User).filter_by(account_id=account_id).order_by(desc(User.creation_date))
+        result = query.first()
+        session.close()
+        return result
+
+    @staticmethod
+    def by_id(user_id):
+        session = db_session()
+        query = session.query(User).filter_by(id=user_id).order_by(desc(User.creation_date))
         result = query.first()
         session.close()
         return result
@@ -270,7 +278,15 @@ class Activity(db.Model):
     @staticmethod
     def by_site_id_and_activity_type(site_id, activity_type):
         session = db_session()
-        query = session.query(Activity).filter_by(site_id=site_id).filter_by(activity_type=activity_type).order_by(asc(Activity.creation_date))
+        query = session.query(Activity).filter_by(site_id=site_id, activity_type=activity_type).order_by(asc(Activity.creation_date))
+        result = query.first()
+        session.close()
+        return result
+
+    @staticmethod
+    def by_id(activity_id):
+        session = db_session()
+        query = session.query(Activity).filter_by(id=activity_id).order_by(asc(Activity.creation_date))
         result = query.first()
         session.close()
         return result
@@ -291,28 +307,45 @@ class Activist(db.Model):
     __tablename__       = 'activist'
 
     role_coordinator = 1
-    role_thought_leader = 2
-    role_the_head = 3
+    role_attendee = 2
 
-    id      = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.id'))
-    activity_id = db.Column(db.Integer, ForeignKey('activity.id'))
+    id          = db.Column(db.Integer, primary_key=True)
+    user_id     = db.Column(db.Integer, ForeignKey('user.id'))
+    activity_id = db.Column(db.Integer, ForeignKey('activity.id'), nullable=True)
+    event_id    = db.Column(db.Integer, ForeignKey('event.id'), nullable=True)
     role        = db.Column(db.Integer)
     creation_date= db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, user_id, activity_id, role):
+    def __init__(self, user_id, activity_id, event_id, role):
         self.creation_date  = datetime.datetime.now()
         self.user_id        = user_id
         self.activity_id    = activity_id
+        self.event_id       = event_id
         self.role           = role
 
     def __repr__(self):
         return '<activist %r>' % str(self.id)
 
     @staticmethod
+    def coordinator(user_id, activity_id):
+        return Activist(user_id, activity_id, None, Activist.role_coordinator)
+
+    @staticmethod
+    def attendee(user_id, event_id):
+        return Activist(user_id, None, event_id, Activist.role_coordinator)
+
+    @staticmethod
     def coordinators(activity_id):
         session = db_session()
         query = session.query(User).join(Activist).filter_by(activity_id=activity_id, role=Activist.role_coordinator).order_by(asc(Activist.creation_date))
+        result = query.all()
+        session.close()
+        return result
+
+    @staticmethod
+    def attendees(event_id):
+        session = db_session()
+        query = session.query(User).join(Activist).filter_by(event_id=event_id, role=Activist.role_attendee).order_by(asc(Activist.creation_date))
         result = query.all()
         session.close()
         return result
@@ -332,10 +365,6 @@ class Action(db.Model):
 
     post_id     = db.Column(db.Integer, ForeignKey('post.id'), nullable=True)
     link        = db.Column(db.String)
-
-    valid       = db.Column(db.Boolean, default=False)
-    verified    = db.Column(db.Boolean, default=False)
-    verified_date= db.Column(db.DateTime, nullable=True)
 
     def __init__(self, user_id, activity_id, post_id, link):
         self.user_id    = user_id
@@ -372,6 +401,14 @@ class Action(db.Model):
         return result
 
     @staticmethod
+    def by_id(action_id):
+        session = db_session()
+        query = session.query(Action).filter_by(id=action_id).order_by(asc(Action.creation_date))
+        result = query.first()
+        session.close()
+        return result
+
+    @staticmethod
     def is_exist(adder, activity_id, link):
         return True if adder.session.query(func.count(Action.id)).filter_by(activity_id=activity_id).filter_by(link=link).scalar() > 0 else False
 
@@ -383,4 +420,60 @@ class Verification(db.Model):
     user_id     = db.Column(db.Integer, ForeignKey('user.id'))
     action_id   = db.Column(db.Integer, ForeignKey('action.id'))
     creation_date= db.Column(db.DateTime, nullable=False)
-    is_valid    = db.Column(db.DateTime, nullable=False)
+    is_valid    = db.Column(db.Boolean, default=False)
+
+    def __init__(self, user_id, action_id, is_valid):
+        self.user_id = user_id
+        self.action_id = action_id
+        self.is_valid = is_valid
+        self.creation_date = datetime.datetime.now()
+
+    @staticmethod
+    def by_user_and_action(user_id, action_id):
+        session = db_session()
+        query = session.query(Verification).filter_by(user_id=user_id, action_id=action_id).order_by(asc(Verification.creation_date))
+        result = query.first()
+        session.close()
+        return result
+
+
+class Event(db.Model):
+    __tablename__       = 'event'
+
+    event_type_meetup   = 1
+    event_type_webcast  = 2
+
+    id          = db.Column(db.Integer, primary_key=True)
+    created_by  = db.Column(db.Integer, ForeignKey('user.id'))
+    creation_date= db.Column(db.DateTime, nullable=False)
+    date        = db.Column(db.DateTime, nullable=False)
+    title       = db.Column(db.String)
+    description = db.Column(db.String)
+    location    = db.Column(db.String)
+    meta_link   = db.Column(db.String)
+    meta_post_id= db.Column(db.Integer)
+    chat_link   = db.Column(db.String)
+    event_type  = db.Column(db.Integer)
+
+    is_valid    = db.Column(db.Boolean, default=True, nullable=True)
+    validated_by= db.Column(db.Integer, ForeignKey('user.id'), nullable=True)
+
+    def __init__(self, event_type, created_by, date, title, description, location, meta_link, meta_post_id, chat_link):
+        self.creation_date = datetime.datetime.now()
+        self.event_type = event_type
+        self.created_by = created_by
+        self.date = date
+        self.title = title
+        self.description = description
+        self.location = location
+        self.meta_link = meta_link
+        self.meta_post_id = meta_post_id
+        self.chat_link = chat_link
+
+    @staticmethod
+    def by_meta_post_id(meta_post_id):
+        session = db_session()
+        query = session.query(Event).filter_by(meta_post_id=meta_post_id).order_by(asc(Event.creation_date))
+        result = query.first()
+        session.close()
+        return result

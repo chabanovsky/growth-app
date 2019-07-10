@@ -8,15 +8,9 @@
 
 {% block content %}
 
-<div class="main-menu">
-    <div id="tabs">
-        {% for item in activities %}
-        <a {% if item.activity_type == tab %}class="active"{% endif %} href="{{ url_for('activities') }}?tab={{ item.activity_type }}">{{ item.tab_name }}</a>
-        {% endfor %}
-    </div>
-</div>
+{% include 'activity_tabs.html' %}
 
-{% if paginator.page == 1 %}
+
 <div class="activity">
     <div style="display: none;" id="activity-id">{{ active.id }}</div>
     <div class="info">
@@ -24,6 +18,11 @@
             {{ active.title }}
         </div>
         <div class="description">{{ active.description|safe }}</div>
+
+        <div class="all-actions">
+            <a href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewed') }}">{{ gettext("List of actions »") }}</a>
+        </div>
+
         <div class="submit-box">
             <div class="submit">
                 <input id="submit-action">
@@ -108,31 +107,5 @@
             </table>
         </div>
     </div>
-    <div class="action-head">
-        <div class="sub-menu">
-            <div class="list_switcher">
-                <a {% if "reviewed" in review_selected %}class="selected"{% endif %} href="{{ base_url }}&review_selected=reviewed" >{{ gettext('Reviewed actions') }}</a>
-                <a {% if "reviewing" in review_selected %}class="selected"{% endif %}  href="{{ base_url }}&review_selected=reviewing" >{{ gettext('Waiting for review') }}</a>
-                <a {% if "declined" in review_selected %}class="selected"{% endif %}  href="{{ base_url }}&review_selected=declined" >{{ gettext('Declined actions') }}</a>
-            </div>
-        </div>
-        <div class="action-content">
-            {% if paginator.items|length > 0 %}
-                {% for item in paginator.items %}
-                    <div><a href="{{ item.link }}">{{ item.link }}</a></div>
-                {% endfor %}
-            {% else %}
-                {% if "reviewed" in review_selected %}
-                    {{ gettext('Nothing has been done. Do not wait, just do it!') }}
-                {% else%}
-                    {{ gettext('Everything has been reviewed! Do not wait, add more!') }}
-                {% endif %}
-            {% endif %}
-        </div>
-    </div>
-
 </div>
-{% endif %}
-
-{% include 'paginator.html' %}
 {% endblock %}
