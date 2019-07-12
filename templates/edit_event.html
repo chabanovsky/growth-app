@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/events.js"></script>
+{% endblock %}
+{% block content %}
+<div class="events">
+    <div id="mode" style="display:none">edit</div>
+    <div class="new-event-box">
+        <div class="new-event">
+            <table>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Title') }}</div>
+                    </td>
+                    <td>
+                        <input id="title" value="{{ event.title }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Event type') }}</div>
+                    </td>
+                    <td>
+                        <select id="event-type">
+                            <option {% if event.event_type == 1 %}selected{% endif %} value="meetups">{{ gettext('Meetup') }}</option>
+                            <option {% if event.event_type == 2 %}selected{% endif %}value="webcasts">{{ gettext('Webcast') }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Date & time') }}</div>
+                    </td>
+                    <td>
+                        <input id="date-time" type="datetime-local" value="{{ event.date.strftime('%Y-%m-%dT%H:%M') }}">
+                    </td>
+                </tr>
+                <tr id="tr-location">
+                    <td>
+                        <div class="label">{{ gettext('Location') }}</div>
+                    </td>
+                    <td>
+                        <input id="location" value="{{ event.location }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Link to post on meta') }}</div>
+                    </td>
+                    <td>
+                        <input id="meta-post-link" value="{{ event.meta_link }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Link to chat') }}</div>
+                    </td>
+                    <td>
+                        <input id="chat-link" value="{{ event.chat_link }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label">{{ gettext('Short description') }}</div>
+                    </td>
+                    <td>
+                        <textarea id="description">{{ event.description }}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <a class="button" id="submit">{{ gettext('Submit') }}</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

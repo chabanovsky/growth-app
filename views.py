@@ -73,10 +73,32 @@ def activities():
                            base_url=base_url,
                            tab=tab)
 
+@application.route("/event/<event_id>")
+@application.route("/event/<event_id>/")
+def event(event_id):
+    if g.user is None:
+        return redirect(url_for('welcome'))
+
+    event_id = int(event_id)
+    event = Event.by_id(event_id)
+    if event is None:
+        abort(404)
+
+    event.coordinator = User.by_id(event.created_by)
+    event.attendees = Activist.attendees(event.id)
+    event.coordinator.is_attendee = Activist.is_attendee(event.created_by, event.id)
+    event.valid = event.date > datetime.datetime.now()
+
+    return render_template('event.html',
+                           event=event,
+                           section="events")
 
 @application.route("/events/<event_type>")
 @application.route("/events/<event_type>/")
 def events(event_type):
+    if g.user is None:
+        return redirect(url_for('welcome'))
+
     if event_type not in ("upcoming", "past", "new"):
         event_type = "upcoming"
     page = max(int(request.args.get("page", "1")), 1)
@@ -85,10 +107,30 @@ def events(event_type):
         for index in range(len(paginator.items)):
             paginator.items[index].coordinator = User.by_id(paginator.items[index].created_by)
             paginator.items[index].attendees = Activist.attendees(paginator.items[index].id)
+
+    g.user.is_coordinator = Activist.is_coordinator(g.user.id)
     return render_template('events.html',
                            section="events",
                            event_type=event_type,
                            paginator=paginator)
+
+@application.route("/edit_event/<event_id>", endpoint="edit_event")
+@application.route("/edit_event/<event_id>/", endpoint="edit_event")
+def edit_event(event_id):
+    if g.user is None:
+        return redirect(url_for('welcome'))
+
+    event_id = int(event_id)
+    event = Event.by_id(event_id)
+    if event is None:
+        abort(404)
+
+    if g.user.id != event.created_by or g.user.role != "moderator":
+        abort(404)
+
+    return render_template('edit_event.html',
+                           section="events",
+                           event=event)
 
 @application.route("/activists")
 @application.route("/activists/")
@@ -171,7 +213,6 @@ def verify_action(action_id):
             "status": False,
             "msg": gettext("Wrong params")
         })
-    print is_valid, request.args.get("valid", None)
     action = Action.by_id(action_id)
     if action is None:
         return jsonify(**{
@@ -194,6 +235,7 @@ def verify_action(action_id):
         "status": True,
         "msg": gettext("Action was reviewed. Thank you!")
     })
+
 
 @application.route("/api/submit_action", endpoint="submit_action")
 @application.route("/api/submit_action/", endpoint="submit_action")
@@ -233,11 +275,13 @@ def submit_action():
         "msg": gettext("Action was added. It will be reviewed soon. Thank you!")
     })
 
-
 @application.route("/api/submit_event", endpoint="submit_event", methods=['GET', 'POST'])
 @application.route("/api/submit_event/", endpoint="submit_event", methods=['GET', 'POST'])
-def submit_action():
+def submit_event():
     if g.user is None:
+        abort(404)
+
+    if not Activist.is_coordinator(g.user.id):
         abort(404)
 
     data = request.get_json(force=True)
@@ -246,14 +290,16 @@ def submit_action():
     meta = data['meta']
     chat = data['chat']
     date = data['date']
-    tab = data['tab']
+    event_type = data['event_type']
     title = data['title']
+
+    mode = data['mode']
 
     if len(description) == 0 or\
         len(meta) == 0 or\
         len(chat) == 0 or\
         len(date) == 0 or\
-        len(tab) == 0 or\
+        len(event_type) == 0 or\
         len(title) == 0:
         return jsonify(**{
             "status": False,
@@ -275,29 +321,113 @@ def submit_action():
         })
 
     event = Event.by_meta_post_id(meta_post_id)
-    if event is not None:
-        return jsonify(**{
-            "status": False,
-            "msg": gettext("This event already exists")
-        })
-
-    if tab == "meetups":
-        event_type = Event.event_type_meetup
-        location = data['location']
-        if len(location) == 0:
+    if mode == "edit":
+        if event is None:
             return jsonify(**{
                 "status": False,
-                "msg": gettext("Invalid params.")
+                "msg": gettext("There is no event with such id.")
             })
+
+        if g.user.id != event.created_by or g.user.role != 'moderator':
+            abort(404)
+
+        event.date = date
+        event.title = title
+        event.description = description
+        event.location = location
+        event.chat_link = chat
+
+        # We cannot change these three things:
+        #event.event_type = event_type
+        #event.meta_link = meta
+        #event.meta_post_id = meta_post_id
+
+        pg_session = db_session()
+        pg_session.add(event)
+        pg_session.commit()
+        pg_session.close()
     else:
-        event_type = Event.event_type_webcast
-    event = Event(event_type, g.user.id, date, title, description, location, meta, meta_post_id, chat)
+        if event is not None:
+            return jsonify(**{
+                "status": False,
+                "msg": gettext("This event already exists")
+            })
+
+        if event_type == "meetups":
+            event_type = Event.event_type_meetup
+            location = data['location']
+            if len(location) == 0:
+                return jsonify(**{
+                    "status": False,
+                    "msg": gettext("Invalid params.")
+                })
+        else:
+            event_type = Event.event_type_webcast
+        event = Event(event_type, g.user.id, date, title, description, location, meta, meta_post_id, chat)
+        pg_session = db_session()
+        pg_session.add(event)
+        pg_session.commit()
+        pg_session.close()
+
+    return jsonify(**{
+        "status": True,
+        "msg": gettext("Event has been added. Thank you!")
+    })
+
+
+@application.route("/api/attend_event/<event_id>", endpoint="attend_event")
+@application.route("/api/attend_event/<event_id>/", endpoint="attend_event")
+def attend_event(event_id):
+    if g.user is None:
+        abort(404)
+
+    event_id = int(event_id)
+    attend = request.args.get("attend", None)
+    if event_id <= 0 or attend is None:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Wrong params")
+        })
+    try:
+        attend = json.loads(attend.lower())
+    except:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Wrong params")
+        })
+
+    event = Event.by_id(event_id)
+    if event is None:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Invalid params.")
+        })
+
+    if event.date < datetime.datetime.now():
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("This event has already happened. No one cannot apply on it.")
+        })
+
+    activist = Activist.by_user_and_event(g.user.id, event.id)
+    if activist is None:
+        if not attend:
+            return jsonify(**{
+                "status": True,
+                "msg": gettext("You are not on the list. No need to do anything!")
+            })
+        activist = Activist(g.user.id, None, event_id, Activist.role_attendee)
+    else:
+        activist.canceled = not attend
+
+    activist.updated_date = datetime.datetime.now()
+
     pg_session = db_session()
-    pg_session.add(event)
+    pg_session.add(activist)
     pg_session.commit()
     pg_session.close()
 
     return jsonify(**{
         "status": True,
-        "msg": gettext("Event has been added. Thank you!")
+        "msg": gettext("Your application has been saved. Thank you!")
     })

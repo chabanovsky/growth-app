@@ -4,14 +4,16 @@
 {% endblock %}
 {% block content %}
 <div class="main-menu">
-    <div id="event-type" style="display: none;">{{ event_type }}</div>
     <div id="tabs">
         <a {% if 'upcoming' in event_type %}class="active"{% endif %} href="{{ url_for('events', event_type='upcoming') }}">{{ gettext('Upcoming') }}</a>
         <a {% if 'past' in event_type %}class="active"{% endif %} href="{{ url_for('events', event_type='past') }}">{{ gettext('Past') }}</a>
+        {% if g.user.is_coordinator %}
         <a {% if 'new' in event_type %}class="active"{% endif %} href="{{ url_for('events', event_type='new') }}">{{ gettext('Schedule Event') }}</a>
+        {% endif %}
     </div>
 </div>
 <div class="events">
+    <div id="mode" style="display:none">new</div>
     <div class="info">
         <div class="description">
         </div>
@@ -30,14 +32,24 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="label">{{ gettext('Event type') }}</div>
+                    </td>
+                    <td>
+                        <select id="event-type">
+                            <option value="meetups">{{ gettext('Meetup') }}</option>
+                            <option value="webcasts">{{ gettext('Webcast') }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <div class="label">{{ gettext('Date & time') }}</div>
                     </td>
                     <td>
                         <input id="date-time" type="datetime-local">
                     </td>
                 </tr>
-                {% if 'meetups' in tab %}
-                <tr>
+                <tr id="tr-location">
                     <td>
                         <div class="label">{{ gettext('Location') }}</div>
                     </td>
@@ -45,7 +57,6 @@
                         <input id="location">
                     </td>
                 </tr>
-                {% endif %}
                 <tr>
                     <td>
                         <div class="label">{{ gettext('Link to post on meta') }}</div>
@@ -84,7 +95,7 @@
     {% else %}
     <div class="event-container">
         {% for event in paginator.items %}
-            <div class="event">
+            <div class="event {% if event.event_type == 1 %}meetup{% endif %}">
                 <div class="head">
                     <div class="coordinator">
                         <a target="_blank" href="{{ event.coordinator.profile_link }}" class="profile">
@@ -93,13 +104,21 @@
                             </div>
                         </a>
                     </div>
-                    <div class="title">{{ event.title }}</div>
+
+                    <a href="{{ url_for('event', event_id=event.id) }}">
+                        <div class="title">{{ event.title }}</div>
+                    </a>
                 </div>
                 <div class="second-line">
-                    <div class="date-time">{{ event.date }}</div>
+                    <div class="date-time">{{ event.date.strftime('%Y-%m-%d') }}{{ gettext(' at ') }}{{ event.date.strftime('%H:%M') }}</div>
                     <div class="location">{{ event.location }}</div>
+                    <div class="coordinated-by">
+                        {{ gettext('Coordinated by ') }}<a target="_blank" href="{{ event.coordinator.profile_link }}">{{ event.coordinator.username }}</a>
+                    </div>
                 </div>
                 <div class="attendees">
+                    {% if event.attendees|length > 0%}
+                    <div class="headline">{{ gettext('The following users are going to attend tis event:') }}</div>
                     {% for attendee in event.attendees %}
                         <a target="_blank" href="{{ attendee.profile_link }}" class="profile">
                             <div class="gravatar-wrapper-24" title="{{ attendee.username }}">
@@ -107,6 +126,9 @@
                             </div>
                         </a>
                     {% endfor %}
+                    {% else %}
+                        {{ gettext('Nobody has applied to this event yet in the app. Please reach the coordinator for more information.') }}
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

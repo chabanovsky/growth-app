@@ -39,7 +39,6 @@ def action_pagination(activity, page_num, reviewed, per_page=DEFAULT_QUESTIONS_P
     action_query = action_query.filter(Action.activity_id == activity.id).order_by(desc(Action.creation_date)).distinct()
     return pagination_helper(page_num, per_page, action_query)
 
-
 def pagination_helper(page_num, per_page, the_query):
     total = the_query.count()
     items = the_query.offset((page_num-1)*per_page).limit(per_page).all()
@@ -48,9 +47,9 @@ def pagination_helper(page_num, per_page, the_query):
 
 def event_paginator(event_type, page_num, per_page=DEFAULT_QUESTIONS_PER_PAGE):
     if event_type == "upcoming":
-        event_query = db.session.query(Event).filter(Event.date >= datetime.now()).order_by(desc(Event.creation_date)).distinct()
+        event_query = db.session.query(Event).filter(Event.date >= datetime.now()).order_by(desc(Event.date)).distinct()
     elif event_type == "past":
-        event_query = db.session.query(Event).filter(Event.date < datetime.now()).order_by(desc(Event.creation_date)).distinct()
+        event_query = db.session.query(Event).filter(Event.date < datetime.now()).order_by(desc(Event.date)).distinct()
     else:
         return None
 

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/event.js"></script>
+{% endblock %}
+{% block content %}
+<div class="event-container">
+    <div class="event-header">
+        <h1 class="title"><a href="{{ url_for('event', event_id=event.id) }}">{{ event.title }}</a></h1>
+    </div>
+    <div class="event-body">
+        <div class="description">
+            {{ event.description }}
+        </div>
+    </div>
+    <div class="event-info">
+        <div class="event-data">
+                <div class="date-time">{{ event.date.strftime('%Y-%m-%d') }}{{ gettext(' at ') }}{{ event.date.strftime('%H:%M') }}</div>
+                <br />
+                <div class="location">{{ gettext('Location:') }} {{ event.location }}</div>
+                <br />
+                <div class="links">
+                    <span class="title">
+                        {{ gettext('Useful links:') }}
+                    </span>
+                    <span class="chat">
+                        <a href="{{ event.chat_link }}">{{ gettext('Chat') }}</a>;
+                    </span>
+                    <span class="meta">
+                        <a href="{{ event.meta_link }}">{{ gettext('Meta') }}</a>
+                    </span>
+                </div>
+        </div>
+        <div class="coordinator">
+            <h4>{{ gettext('Event Coordinator') }}</h4>
+            <div>
+                <a target="_blank" href="{{ event.coordinator.profile_link }}" class="profile">
+                    <div class="gravatar-wrapper-24" title="{{ event.coordinator.username }}">
+                        <img src="{{ event.coordinator.profile_image }}" alt="" width="24" height="24" class="avatar">
+                    </div>
+                </a>
+                <div class="username">
+                    <a target="_blank" href="{{ event.coordinator.profile_link }}">{{ event.coordinator.username }}</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="attendees">
+            <h4>{{ gettext('Event Attendees') }}</h4>
+            <div>
+                {% if event.attendees|length > 0 %}
+                    {% for attendee in event.attendees %}
+                    <a target="_blank" href="{{ attendee.profile_link }}" class="profile">
+                        <div class="gravatar-wrapper-24" title="{{ attendee.username }}">
+                            <img src="{{ attendee.profile_image }}" alt="" width="24" height="24" class="avatar">
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    {{ gettext('Nobody here. Be the first!') }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="apply">
+        <div>
+            {% if event.valid %}
+            {%if not event.coordinator.is_attendee %}
+            <a class="smbent button" href="{{ url_for('attend_event', event_id=event.id) }}?attend=True">{{ gettext('I am going to attend!') }}</a>
+            {% else %}
+            <a class="smbent cancel button" href="{{ url_for('attend_event', event_id=event.id) }}?attend=False">{{ gettext('Cancel my application') }}</a>
+            {% endif %}
+            {% else %}
+            {{ gettext('This event has already happened. No one cannot apply on it.') }}
+            {% endif %}
+            {% if g.user.id == event.created_by or g.user.role == "moderator" %}
+            <div class="edit-event-link">
+                <a href="{{ url_for('edit_event', event_id=event.id) }}">{{ gettext('Edit this event') }}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

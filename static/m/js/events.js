@@ -5,9 +5,12 @@ var locationTag = "#location";
 var dateTimeTag = "#date-time";
 var titleTag = "#title";
 var chatLinkTag = "#chat-link"
-var tabTag = "#event-type";
+var eventTypeTag = "#event-type";
+var trLocationTag = '#tr-location'
+var modeTag = "#mode"
 
 var submitEndpoint = "/api/submit_event/"
+var eventListUrl = '/events/upcoming/'
 
 $(document).ready(function() {
     setupSubmit();
@@ -18,12 +21,13 @@ function setupSubmit() {
         event.preventDefault();
         var data = new Object();
 
-        data.tab = $(tabTag).text()
+        data.event_type = $(eventTypeTag).val()
         data.title = $(titleTag).val()
         data.description = $(descriptionTag).val();
         data.meta = $(metaPostLinkTag).val();
         data.date = $(dateTimeTag).val()
         data.chat = $(chatLinkTag).val()
+        data.mode = $(modeTag).text()
 
         if (data.title.length == 0 ||
             data.description.length == 0 ||
@@ -50,7 +54,7 @@ function setupSubmit() {
             success: function(data){
                 if (data.status) {
                     alert(data.msg);
-                    location.reload();
+                    location.href = eventListUrl;
                 } else {
                     alert(data.msg);
                 }

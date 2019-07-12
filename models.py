@@ -315,6 +315,8 @@ class Activist(db.Model):
     event_id    = db.Column(db.Integer, ForeignKey('event.id'), nullable=True)
     role        = db.Column(db.Integer)
     creation_date= db.Column(db.DateTime, nullable=False)
+    canceled    = db.Column(db.Boolean, default=False)
+    updated_date= db.Column(db.DateTime, nullable=True)
 
     def __init__(self, user_id, activity_id, event_id, role):
         self.creation_date  = datetime.datetime.now()
@@ -337,7 +339,9 @@ class Activist(db.Model):
     @staticmethod
     def coordinators(activity_id):
         session = db_session()
-        query = session.query(User).join(Activist).filter_by(activity_id=activity_id, role=Activist.role_coordinator).order_by(asc(Activist.creation_date))
+        query = session.query(User).join(Activist).filter_by(activity_id=activity_id,
+                                                             role=Activist.role_coordinator,
+                                                             canceled=False).order_by(asc(Activist.creation_date))
         result = query.all()
         session.close()
         return result
@@ -345,8 +349,35 @@ class Activist(db.Model):
     @staticmethod
     def attendees(event_id):
         session = db_session()
-        query = session.query(User).join(Activist).filter_by(event_id=event_id, role=Activist.role_attendee).order_by(asc(Activist.creation_date))
+        query = session.query(User).join(Activist).filter_by(event_id=event_id,
+                                                             role=Activist.role_attendee,
+                                                             canceled=False).order_by(asc(Activist.creation_date))
         result = query.all()
+        session.close()
+        return result
+
+    @staticmethod
+    def is_attendee(user_id, event_id):
+        session = db_session()
+        result = session.query(func.count(Activist.id)).filter_by(user_id=user_id,
+                                                                  event_id=event_id,
+                                                                  role=Activist.role_attendee,
+                                                                  canceled=False).scalar()
+        session.close()
+        return True if result > 0 else False
+
+    @staticmethod
+    def is_coordinator(user_id):
+        session = db_session()
+        result = session.query(func.count(Activist.id)).filter_by(user_id=user_id, role=Activist.role_coordinator).scalar()
+        session.close()
+        return True if result > 0 else False
+
+    @staticmethod
+    def by_user_and_event(user_id, event_id):
+        session = db_session()
+        query = session.query(Activist).filter_by(event_id=event_id, user_id=user_id, role=Activist.role_attendee).order_by(asc(Activist.creation_date))
+        result = query.first()
         session.close()
         return result
 
@@ -470,10 +501,19 @@ class Event(db.Model):
         self.meta_post_id = meta_post_id
         self.chat_link = chat_link
 
+    # Fix it! We must pass meta_post_id AND user_id
     @staticmethod
     def by_meta_post_id(meta_post_id):
         session = db_session()
         query = session.query(Event).filter_by(meta_post_id=meta_post_id).order_by(asc(Event.creation_date))
+        result = query.first()
+        session.close()
+        return result
+
+    @staticmethod
+    def by_id(event_id):
+        session = db_session()
+        query = session.query(Event).filter_by(id=event_id).order_by(asc(Event.creation_date))
         result = query.first()
         session.close()
         return result
