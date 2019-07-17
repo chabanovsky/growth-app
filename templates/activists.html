@@ -19,6 +19,17 @@
                             <img src="{{ activist.profile_image }}" width="48" height="48">
                         </div>
                     </a>
+                    {% if g.user.role == "moderator" %}
+                    <div class="mod-tools">
+                        <a class="smbalrt" href="{{ url_for('ban_user', user_id=activist.id) }}">
+                            {% if activist.is_banned %}
+                            {{ gettext('unsuspend') }}
+                            {% else %}
+                            {{ gettext('suspend') }}
+                            {% endif %}
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="activist-details">
                     <a target="_blank" href="{{ activist.profile_link }}">{{ activist.username }}</a>
@@ -33,7 +44,6 @@
                     {% if activist.coordinated > 0 %}
                     <span class="acted">{{ activist.coordinated }}  {{ ngettext('time was the coordinator', 'times was the coordinator', activist.coordinated )|safe }}</span>
                     {% endif %}
-
                 </div>
             </div>
         {% endfor %}

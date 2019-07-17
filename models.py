@@ -34,7 +34,7 @@ class User(db.Model):
     user_id     = db.Column(db.Integer)
     username    = db.Column(db.String(100))
     role        = db.Column(db.String(30))
-    is_banned   = db.Column(db.Boolean)
+    is_banned   = db.Column(db.Boolean, default=False)
     end_ban_date= db.Column(db.DateTime, nullable=True)
     reputation  = db.Column(db.Integer)
     profile_image = db.Column(db.String(200))

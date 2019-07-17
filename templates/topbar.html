@@ -12,9 +12,6 @@
             </div>
         </a>
         <a href=" {{ url_for('logout_oauth') }}">{{ gettext('log out') }}</a>
-        {% if g.user.role == "moderator" %}
-        <a class="topbar-icon" href="#"><span>{{ gettext('mod') }}</span></a>
-        {% endif %}
         <a target="_blank" title="{{ gettext('Help to make the app better. Contribute to the project on GitHub.') }}" href="https://github.com/chabanovsky/growth-app">{{ gettext('GitHub') }}</a>
     </div>
 </div>

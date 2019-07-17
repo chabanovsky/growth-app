@@ -447,3 +447,37 @@ def attend_event(event_id):
         "status": True,
         "msg": gettext("Your application has been saved. Thank you!")
     })
+
+@application.route("/api/ban_user/<user_id>", endpoint="ban_user")
+@application.route("/api/ban_user/<user_id>/", endpoint="ban_user")
+def ban_user(user_id):
+    if g.user is None or g.user.role != 'moderator':
+        abort(404)
+    try:
+        user_id = int(user_id)
+    except:
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Wrong params")
+        })
+
+    another_user = User.by_id(user_id)
+    if another_user is None or (another_user.role == 'moderator' and not another_user.is_banned):
+        return jsonify(**{
+            "status": False,
+            "msg": gettext("Wrong params")
+        })
+    current_status = another_user.is_banned
+    another_user.is_banned = not another_user.is_banned
+
+    pg_session = db_session()
+    pg_session.add(another_user)
+    pg_session.commit()
+    pg_session.close()
+
+    return jsonify(**{
+        "status": True,
+        "msg": gettext("The user was %s" % (
+            gettext("suspended") if not current_status else gettext("unsuspended"))
+        )
+    })
