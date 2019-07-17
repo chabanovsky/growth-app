@@ -367,6 +367,22 @@ class Activist(db.Model):
         return True if result > 0 else False
 
     @staticmethod
+    def user_attend_times(user_id):
+        session = db_session()
+        result = session.query(func.count(Activist.id)).filter_by(
+            user_id=user_id, role=Activist.role_attendee, canceled=False).scalar()
+        session.close()
+        return result
+
+    @staticmethod
+    def user_coordinate_times(user_id):
+        session = db_session()
+        result = session.query(func.count(Activist.id)).filter_by(
+            user_id=user_id, role=Activist.role_coordinator, canceled=False).scalar()
+        session.close()
+        return result
+
+    @staticmethod
     def is_coordinator(user_id):
         session = db_session()
         result = session.query(func.count(Activist.id)).filter_by(user_id=user_id, role=Activist.role_coordinator).scalar()
@@ -420,6 +436,13 @@ class Action(db.Model):
         session = db_session()
         query = session.query(User).join(Action).filter(Action.activity_id==activity_id).distinct()
         result = query.all()
+        session.close()
+        return result
+
+    @staticmethod
+    def user_act_times(user_id):
+        session = db_session()
+        result = session.query(func.count(Action.id)).filter_by(user_id=user_id).scalar()
         session.close()
         return result
 

@@ -501,9 +501,14 @@ body {
     display: inline-block;
 }
 
-gravatar-wrapper-24 {
+.gravatar-wrapper-24 {
     padding: 0;
     overflow: hidden;
+}
+
+.attendees .gravatar-wrapper-24 {
+    width: 30px;
+    float: left;
 }
 
 .topbar .topbar-links .profile .avatar {
@@ -747,6 +752,7 @@ gravatar-wrapper-24 {
     float: left;
     width: 100%;
     text-align: center;
+    margin-top: 25px;
 }
 .event-container .apply>div {
     margin: 0 auto;
@@ -768,4 +774,40 @@ gravatar-wrapper-24 {
 }
 .apply .edit-event-link {
     margin-top: 20px;
+}
+.activist-container .grid-layout {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+.grid-layout .activist-info {
+    overflow: hidden;
+    flex: 1 1 25%;
+    min-width: 250px;
+    width: auto;
+    box-sizing: border-box;
+    padding: 5px 6px 7px 7px;
+    color: #6a737c;
+}
+.grid-layout .activist-info .gravatar48 {
+    float: left;
+    width: 48px;
+    height: 48px;
+    border-radius: 2px;
+    box-shadow: 2px 2px 4px rgba(12,13,14,0.5);
+    border-collapse: separate;
+}
+.grid-layout .activist-info .activist-details {
+    margin-left: 9px;
+    width: calc(100% - 64px);
+    line-height: 1.3;
+    float: left;
+}
+.grid-layout .activist-info .activist-details .acted,
+.grid-layout .activist-info .activist-details .attended {
+    font-size: 12px;
+    margin-bottom: 2px;
+    display: block;
 }

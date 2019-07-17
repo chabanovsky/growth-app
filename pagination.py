@@ -7,7 +7,7 @@ from flask_sqlalchemy import Pagination
 from flask import g, request, session
 
 from meta import db
-from models import Action, Verification, Event
+from models import Action, Verification, Event, Activist, User
 
 DEFAULT_QUESTION_NUMBER_LIMIT = 1000
 DEFAULT_QUESTIONS_PER_PAGE = 10
@@ -54,3 +54,23 @@ def event_paginator(event_type, page_num, per_page=DEFAULT_QUESTIONS_PER_PAGE):
         return None
 
     return pagination_helper(page_num, per_page, event_query)
+
+
+def activist_paginator(activist_type, page_num, per_page=DEFAULT_QUESTIONS_PER_PAGE):
+    if activist_type == "activists":
+        attendee_query = db.session.query(User.id.label('id')).join(
+            Activist, User.id == Activist.user_id).filter(
+            Activist.role == Activist.role_attendee).group_by(User.id)
+
+        action_query = db.session.query(User.id.label('id')).join(
+            Action, User.id == Action.user_id).group_by(User.id)
+
+        union_query = action_query.union_all(attendee_query).subquery()
+
+        activist_query = db.session.query(User).join(
+            union_query, User.id == union_query.c.id).distinct()
+    else:
+        activist_query = db.session.query(User).join(Activist).filter(Activist.role == Activist.role_coordinator).order_by(
+            asc(Activist.creation_date)).distinct()
+
+    return pagination_helper(page_num, per_page, activist_query)

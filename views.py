@@ -14,7 +14,7 @@ from sqlalchemy.sql import func
 
 from meta import app as application, db, db_session, engine
 from models import User, Activity, Site, Action, Activist, DBModelAdder, Verification, Event
-from pagination import action_pagination, event_paginator
+from pagination import action_pagination, event_paginator, activist_paginator
 from meta import STACKEXCHANGE_CLIENT_SECRET, STACKEXCHANGE_CLIENT_ID, STACKEXCHANGE_CLIENT_KEY
 
 STACKEXCHANGE_ADD_COMMENT_ENDPOINT = "https://api.stackexchange.com/2.2/posts/{id}/comments/add"
@@ -86,8 +86,8 @@ def event(event_id):
 
     event.coordinator = User.by_id(event.created_by)
     event.attendees = Activist.attendees(event.id)
-    event.coordinator.is_attendee = Activist.is_attendee(event.created_by, event.id)
     event.valid = event.date > datetime.datetime.now()
+    g.user.is_attendee = Activist.is_attendee(g.user.id, event.id)
 
     return render_template('event.html',
                            event=event,
@@ -132,11 +132,27 @@ def edit_event(event_id):
                            section="events",
                            event=event)
 
-@application.route("/activists")
-@application.route("/activists/")
-def activists():
-    return render_template('no_way.html',
+@application.route("/activists/<activist_type>")
+@application.route("/activists/<activist_type>/")
+def activists(activist_type):
+    if g.user is None:
+        return redirect(url_for('welcome'))
+
+    page = max(int(request.args.get("page", "1")), 1)
+    if activist_type is None or activist_type not in ("activists", "coordinators"):
+        activist_type = "activists"
+
+    paginator = activist_paginator(activist_type, page)
+    for index in range(len(paginator.items)):
+        paginator.items[index].attended = Activist.user_attend_times(paginator.items[index].id)
+        paginator.items[index].acted = Action.user_act_times(paginator.items[index].id)
+        paginator.items[index].coordinated = Activist.user_coordinate_times(paginator.items[index].id)
+
+    return render_template('activists.html',
+                           paginator=paginator,
+                           activist_type=activist_type,
                            section="activists")
+
 
 @application.route("/no-way")
 @application.route("/no-way/")

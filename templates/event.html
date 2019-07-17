@@ -16,8 +16,10 @@
         <div class="event-data">
                 <div class="date-time">{{ event.date.strftime('%Y-%m-%d') }}{{ gettext(' at ') }}{{ event.date.strftime('%H:%M') }}</div>
                 <br />
+                {% if event.location|length > 0 %}
                 <div class="location">{{ gettext('Location:') }} {{ event.location }}</div>
                 <br />
+                {% endif %}
                 <div class="links">
                     <span class="title">
                         {{ gettext('Useful links:') }}
@@ -64,11 +66,11 @@
     <div class="apply">
         <div>
             {% if event.valid %}
-            {%if not event.coordinator.is_attendee %}
-            <a class="smbent button" href="{{ url_for('attend_event', event_id=event.id) }}?attend=True">{{ gettext('I am going to attend!') }}</a>
-            {% else %}
-            <a class="smbent cancel button" href="{{ url_for('attend_event', event_id=event.id) }}?attend=False">{{ gettext('Cancel my application') }}</a>
-            {% endif %}
+                {%if not g.user.is_attendee %}
+                <a class="smbent button" href="{{ url_for('attend_event', event_id=event.id) }}?attend=True">{{ gettext('I am going to attend!') }}</a>
+                {% else %}
+                <a class="smbent cancel button" href="{{ url_for('attend_event', event_id=event.id) }}?attend=False">{{ gettext('Cancel my application') }}</a>
+                {% endif %}
             {% else %}
             {{ gettext('This event has already happened. No one cannot apply on it.') }}
             {% endif %}

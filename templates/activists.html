@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/event.js"></script>
+{% endblock %}
+{% block content %}
+<div class="main-menu">
+    <div id="tabs">
+        <a {% if 'activists' in activist_type %}class="active"{% endif %} href="{{ url_for('activists', activist_type='upcoming') }}">{{ gettext('Activists') }}</a>
+        <a {% if 'coordinators' in activist_type %}class="active"{% endif %} href="{{ url_for('activists', activist_type='coordinators') }}">{{ gettext('Coordinators') }}</a>
+    </div>
+</div>
+<div class="activist-container">
+    <div class="grid-layout">
+        {% for activist in paginator.items%}
+            <div class="activist-info">
+                <div class="gravatar48">
+                    <a target="_blank" href="{{ activist.profile_link }}">
+                        <div class="gravatar-wrapper-48">
+                            <img src="{{ activist.profile_image }}" width="48" height="48">
+                        </div>
+                    </a>
+                </div>
+                <div class="activist-details">
+                    <a target="_blank" href="{{ activist.profile_link }}">{{ activist.username }}</a>
+                    {% if activist.attended > 0 %}
+                    <span class="attended">{{ activist.attended }} {{ ngettext('event attended', 'events attended', activist.attended)|safe }}</span>
+                    {% endif %}
+
+                    {% if activist.acted > 0 %}
+                    <span class="acted">{{ activist.acted }}  {{ ngettext('action submitted', 'actions submitted', activist.acted )|safe }}</span>
+                    {% endif %}
+
+                    {% if activist.coordinated > 0 %}
+                    <span class="acted">{{ activist.coordinated }}  {{ ngettext('time was the coordinator', 'times was the coordinator', activist.coordinated )|safe }}</span>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% include 'paginator.html' %}
+{% endblock %}
