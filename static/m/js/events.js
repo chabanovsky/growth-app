@@ -38,7 +38,7 @@ function setupSubmit() {
             return;
         }
 
-        if (data.tab == "meetups") {
+        if (data.event_type == "meetups") {
             data.location = $(locationTag).val();
             if (data.location.length == 0) {
                 alert("Please, fill all fields.");

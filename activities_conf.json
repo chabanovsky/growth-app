@@ -63,6 +63,22 @@
           "account_id": 272910
         }
       ]
+    },
+    {
+      "activity_type": 1,
+      "site_api_name": "stackoverflow",
+      "tab_name": "Self Answered Questions",
+      "title": "Self Answered Questions",
+      "description": "<div>Вопросы с хорошими ответами — главная ценность сайта для посетителей. Давайтее создадим лучшую в мире прикладную базу знаний на русском языке по программированию.</div>",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Как ответить на свой вопрос?",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Stack Overflow на русском",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
     }
   ]
 }

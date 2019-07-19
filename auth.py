@@ -78,9 +78,16 @@ def login_oauth():
     if "access_token" not in session:
         return redirect(url_for("no_way"))
 
+    if session.get("language", None) is None:
+        return redirect(url_for("welcome"))
+
+    if session.get("language") == 'en':
+        site_param = "stackoverflow"
+    else:
+        site_param = session.get("language") + ".stackoverflow"
 
     params = {
-        "site": session.get("language") + ".stackoverflow",
+        "site": site_param,
         "order": "desc",
         "sort": "reputation",
         "key": STACKEXCHANGE_CLIENT_KEY,

@@ -367,18 +367,18 @@ class Activist(db.Model):
         return True if result > 0 else False
 
     @staticmethod
-    def user_attend_times(user_id):
+    def user_attend_times(user_id, site_id):
         session = db_session()
-        result = session.query(func.count(Activist.id)).filter_by(
-            user_id=user_id, role=Activist.role_attendee, canceled=False).scalar()
+        result = session.query(func.count(Activist.id)).join(Event).filter(
+            Activist.user_id == user_id, Activist.role == Activist.role_attendee, Activist.canceled==False, Event.site_id == site_id).scalar()
         session.close()
         return result
 
     @staticmethod
-    def user_coordinate_times(user_id):
+    def user_coordinate_times(user_id, site_id):
         session = db_session()
-        result = session.query(func.count(Activist.id)).filter_by(
-            user_id=user_id, role=Activist.role_coordinator, canceled=False).scalar()
+        result = session.query(func.count(Activist.id)).join(Activity).filter(
+            Activist.user_id == user_id, Activist.role == Activist.role_coordinator, Activist.canceled==False, Activity.site_id == site_id).scalar()
         session.close()
         return result
 
@@ -440,9 +440,10 @@ class Action(db.Model):
         return result
 
     @staticmethod
-    def user_act_times(user_id):
+    def user_act_times(user_id, site_id):
         session = db_session()
-        result = session.query(func.count(Action.id)).filter_by(user_id=user_id).scalar()
+        result = session.query(func.count(Action.id)).join(Activity).filter(
+            Action.user_id == user_id, Activity.site_id == site_id).scalar()
         session.close()
         return result
 
@@ -499,6 +500,7 @@ class Event(db.Model):
 
     id          = db.Column(db.Integer, primary_key=True)
     created_by  = db.Column(db.Integer, ForeignKey('user.id'))
+    site_id = db.Column(db.Integer, ForeignKey('site.id'))
     creation_date= db.Column(db.DateTime, nullable=False)
     date        = db.Column(db.DateTime, nullable=False)
     title       = db.Column(db.String)
@@ -509,13 +511,15 @@ class Event(db.Model):
     chat_link   = db.Column(db.String)
     event_type  = db.Column(db.Integer)
 
+
     is_valid    = db.Column(db.Boolean, default=True, nullable=True)
     validated_by= db.Column(db.Integer, ForeignKey('user.id'), nullable=True)
 
-    def __init__(self, event_type, created_by, date, title, description, location, meta_link, meta_post_id, chat_link):
+    def __init__(self, event_type, created_by, site_id, date, title, description, location, meta_link, meta_post_id, chat_link):
         self.creation_date = datetime.datetime.now()
         self.event_type = event_type
         self.created_by = created_by
+        self.site_id = site_id
         self.date = date
         self.title = title
         self.description = description
@@ -526,9 +530,10 @@ class Event(db.Model):
 
     # Fix it! We must pass meta_post_id AND user_id
     @staticmethod
-    def by_meta_post_id(meta_post_id):
+    def by_meta_post_id(meta_post_id, site_id):
         session = db_session()
-        query = session.query(Event).filter_by(meta_post_id=meta_post_id).order_by(asc(Event.creation_date))
+        query = session.query(Event).filter(
+            Event.meta_post_id == meta_post_id, Event.site_id == site_id).order_by(asc(Event.creation_date))
         result = query.first()
         session.close()
         return result

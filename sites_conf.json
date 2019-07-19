@@ -35,6 +35,15 @@
       "api_name": "es.stackoverflow",
       "language": "es",
       "launch_date": 1495050784
+    },
+    {
+      "name": "Stack Overflow in English",
+      "url":  "https://stackoverflow.com",
+      "meta": "https://meta.stackoverflow.com",
+      "chat": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol",
+      "api_name": "stackoverflow",
+      "language": "en",
+      "launch_date": 1495050784
     }
   ]
 }

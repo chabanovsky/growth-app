@@ -284,10 +284,14 @@ def load_sites(filename):
             )
             language = item["language"]
 
-            if Site.is_exist(adder, api_name):
-                continue
-
-            site = Site(name, url, meta, chat, api_name, launch_date, language)
+            site = Site.by_api_name(api_name)
+            if site is not None:
+                site.name = name
+                site.url = url
+                site.meta = meta
+                site.chat = chat
+            else:
+                site = Site(name, url, meta, chat, api_name, launch_date, language)
             adder.add(site)
     adder.done()
 

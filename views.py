@@ -102,7 +102,7 @@ def events(event_type):
     if event_type not in ("upcoming", "past", "new"):
         event_type = "upcoming"
     page = max(int(request.args.get("page", "1")), 1)
-    paginator = event_paginator(event_type, page)
+    paginator = event_paginator(event_type, g.site.id, page)
     if paginator is not None:
         for index in range(len(paginator.items)):
             paginator.items[index].coordinator = User.by_id(paginator.items[index].created_by)
@@ -142,11 +142,11 @@ def activists(activist_type):
     if activist_type is None or activist_type not in ("activists", "coordinators"):
         activist_type = "activists"
 
-    paginator = activist_paginator(activist_type, page)
+    paginator = activist_paginator(activist_type, g.site.id, page)
     for index in range(len(paginator.items)):
-        paginator.items[index].attended = Activist.user_attend_times(paginator.items[index].id)
-        paginator.items[index].acted = Action.user_act_times(paginator.items[index].id)
-        paginator.items[index].coordinated = Activist.user_coordinate_times(paginator.items[index].id)
+        paginator.items[index].attended = Activist.user_attend_times(paginator.items[index].id, g.site.id)
+        paginator.items[index].acted = Action.user_act_times(paginator.items[index].id, g.site.id)
+        paginator.items[index].coordinated = Activist.user_coordinate_times(paginator.items[index].id, g.site.id)
 
     return render_template('activists.html',
                            paginator=paginator,
@@ -158,6 +158,11 @@ def activists(activist_type):
 @application.route("/no-way/")
 def no_way():
     return render_template('no_way.html')
+
+@application.route("/beliefs")
+@application.route("/beliefs/")
+def beliefs():
+    return render_template('beliefs.html')
 
 
 @application.route("/welcome")
@@ -349,7 +354,7 @@ def submit_event():
             "msg": gettext("Invalid meta url")
         })
 
-    event = Event.by_meta_post_id(meta_post_id)
+    event = Event.by_meta_post_id(meta_post_id, g.site.id)
     if mode == "edit":
         if event is None:
             return jsonify(**{
@@ -392,7 +397,7 @@ def submit_event():
                 })
         else:
             event_type = Event.event_type_webcast
-        event = Event(event_type, g.user.id, date, title, description, location, meta, meta_post_id, chat)
+        event = Event(event_type, g.user.id, g.site.id, date, title, description, location, meta, meta_post_id, chat)
         pg_session = db_session()
         pg_session.add(event)
         pg_session.commit()

@@ -94,44 +94,48 @@
     </div>
     {% else %}
     <div class="event-container">
-        {% for event in paginator.items %}
-            <div class="event {% if event.event_type == 1 %}meetup{% endif %}">
-                <div class="head">
-                    <div class="coordinator">
-                        <a target="_blank" href="{{ event.coordinator.profile_link }}" class="profile">
-                            <div class="gravatar-wrapper-24" title="{{ event.coordinator.username }}">
-                                <img src="{{ event.coordinator.profile_image }}" alt="" width="24" height="24" class="avatar">
-                            </div>
-                        </a>
-                    </div>
+        {% if paginator.items|length == 0 %}
+            {{ gettext('There are no events.') }}
+        {% else %}
+            {% for event in paginator.items %}
+                <div class="event {% if event.event_type == 1 %}meetup{% endif %}">
+                    <div class="head">
+                        <div class="coordinator">
+                            <a target="_blank" href="{{ event.coordinator.profile_link }}" class="profile">
+                                <div class="gravatar-wrapper-24" title="{{ event.coordinator.username }}">
+                                    <img src="{{ event.coordinator.profile_image }}" alt="" width="24" height="24" class="avatar">
+                                </div>
+                            </a>
+                        </div>
 
-                    <a href="{{ url_for('event', event_id=event.id) }}">
-                        <div class="title">{{ event.title }}</div>
-                    </a>
-                </div>
-                <div class="second-line">
-                    <div class="date-time">{{ event.date.strftime('%Y-%m-%d') }}{{ gettext(' at ') }}{{ event.date.strftime('%H:%M') }}</div>
-                    <div class="location">{{ event.location }}</div>
-                    <div class="coordinated-by">
-                        {{ gettext('Coordinated by ') }}<a target="_blank" href="{{ event.coordinator.profile_link }}">{{ event.coordinator.username }}</a>
+                        <a href="{{ url_for('event', event_id=event.id) }}">
+                            <div class="title">{{ event.title }}</div>
+                        </a>
+                    </div>
+                    <div class="second-line">
+                        <div class="date-time">{{ event.date.strftime('%Y-%m-%d') }}{{ gettext(' at ') }}{{ event.date.strftime('%H:%M') }}</div>
+                        <div class="location">{{ event.location }}</div>
+                        <div class="coordinated-by">
+                            {{ gettext('Coordinated by ') }}<a target="_blank" href="{{ event.coordinator.profile_link }}">{{ event.coordinator.username }}</a>
+                        </div>
+                    </div>
+                    <div class="attendees">
+                        {% if event.attendees|length > 0%}
+                        <div class="headline">{{ gettext('The following users are going to attend tis event:') }}</div>
+                        {% for attendee in event.attendees %}
+                            <a target="_blank" href="{{ attendee.profile_link }}" class="profile">
+                                <div class="gravatar-wrapper-24" title="{{ attendee.username }}">
+                                    <img src="{{ attendee.profile_image }}" alt="" width="24" height="24" class="avatar">
+                                </div>
+                            </a>
+                        {% endfor %}
+                        {% else %}
+                            {{ gettext('Nobody has applied to this event yet in the app. Please reach the coordinator for more information.') }}
+                        {% endif %}
                     </div>
                 </div>
-                <div class="attendees">
-                    {% if event.attendees|length > 0%}
-                    <div class="headline">{{ gettext('The following users are going to attend tis event:') }}</div>
-                    {% for attendee in event.attendees %}
-                        <a target="_blank" href="{{ attendee.profile_link }}" class="profile">
-                            <div class="gravatar-wrapper-24" title="{{ attendee.username }}">
-                                <img src="{{ attendee.profile_image }}" alt="" width="24" height="24" class="avatar">
-                            </div>
-                        </a>
-                    {% endfor %}
-                    {% else %}
-                        {{ gettext('Nobody has applied to this event yet in the app. Please reach the coordinator for more information.') }}
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
     {% endif %}
 </div>
