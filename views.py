@@ -125,7 +125,7 @@ def edit_event(event_id):
     if event is None:
         abort(404)
 
-    if g.user.id != event.created_by or g.user.role != "moderator":
+    if g.user.id != event.created_by or g.user.role != "moderator" or g.user.is_banned:
         abort(404)
 
     return render_template('edit_event.html',
@@ -195,6 +195,11 @@ def action_list(activity_type, review_selected):
     for index in range(len(paginator.items)):
         paginator.items[index].author = User.by_id(paginator.items[index].user_id)
 
+    g.user.is_coordinator = False
+    for coordinator in coordinators:
+        if g.user.id == coordinator.id:
+            g.user.is_coordinator = True
+
     return render_template('action_list.html',
                            activities=activities,
                            active=active,
@@ -212,7 +217,7 @@ def action_list(activity_type, review_selected):
 @application.route("/api/verify_action/<action_id>", endpoint="verify_action")
 @application.route("/api/verify_action/<action_id>/", endpoint="verify_action")
 def verify_action(action_id):
-    if g.user is None:
+    if g.user is None or g.user.is_banned:
         abort(404)
 
     action_id = int(action_id)
@@ -236,6 +241,14 @@ def verify_action(action_id):
             "msg": gettext("There are no action with this id.")
         })
 
+    coordinators = Activist.coordinators(action.id)
+    g.user.is_coordinator = False
+    for coordinator in coordinators:
+        if g.user.id == coordinator.id:
+            g.user.is_coordinator = True
+    if g.user.role != 'moderator' and not g.user.is_coordinator:
+        abort(404)
+
     verification = Verification.by_user_and_action(g.user.id, action_id)
     if verification is None:
         verification = Verification(g.user.id, action_id, is_valid)
@@ -256,7 +269,7 @@ def verify_action(action_id):
 @application.route("/api/submit_action", endpoint="submit_action")
 @application.route("/api/submit_action/", endpoint="submit_action")
 def submit_action():
-    if g.user is None:
+    if g.user is None or g.user.is_banned:
         abort(404)
 
     activity_id = int(request.args.get("activity_id", "-1"))
@@ -294,7 +307,7 @@ def submit_action():
 @application.route("/api/submit_event", endpoint="submit_event", methods=['GET', 'POST'])
 @application.route("/api/submit_event/", endpoint="submit_event", methods=['GET', 'POST'])
 def submit_event():
-    if g.user is None:
+    if g.user is None or g.user.is_banned:
         abort(404)
 
     if not Activist.is_coordinator(g.user.id):
@@ -394,7 +407,7 @@ def submit_event():
 @application.route("/api/attend_event/<event_id>", endpoint="attend_event")
 @application.route("/api/attend_event/<event_id>/", endpoint="attend_event")
 def attend_event(event_id):
-    if g.user is None:
+    if g.user is None or g.user.is_banned:
         abort(404)
 
     event_id = int(event_id)

@@ -32,11 +32,14 @@
         <div class="sub-menu">
             <div class="list_switcher">
                 <a {% if "reviewed" in review_selected %}class="selected"{% endif %} href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewed') }}" >{{ gettext('Reviewed actions') }}</a>
+                {% if g.user.role == 'moderator' or g.user.is_coordinator %}
                 <a {% if "reviewing" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewing') }}" >{{ gettext('Waiting for review') }}</a>
+                {% endif %}
                 <a {% if "rejected" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='rejected') }}" >{{ gettext('Rejected actions') }}</a>
             </div>
         </div>
     </div>
+
     <div class="action-content-container">
     {% if paginator.items|length > 0 %}
         {% for item in paginator.items %}
@@ -51,6 +54,8 @@
                 <div class="link">
                     <a target="_blank" href="{{ item.link }}">{{ item.link }}</a>
                 </div>
+
+                {% if g.user.role == 'moderator' or g.user.is_coordinator %}
                 <div class="actions">
                     {% if not "reviewed" in review_selected %}
                         <a class="verify button" href="{{ url_for('verify_action', action_id=item.id) }}?valid=True">{{ gettext("Looks good!") }}</a>
@@ -59,6 +64,8 @@
                         <a class="verify button" href="{{ url_for('verify_action', action_id=item.id) }}?valid=False">{{ gettext("Reject") }}</a>
                     {% endif %}
                 </div>
+                {% endif %}
+
             </div>
         {% endfor %}
     {% else %}
