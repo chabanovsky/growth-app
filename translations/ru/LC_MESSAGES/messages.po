@@ -325,7 +325,7 @@ msgstr "Координатор"
 
 #: templates/events.html:125
 msgid "The following users are going to attend tis event:"
-msgstr "Участники, которые собираются принять участие:"
+msgstr "Участники, которые планируют присоединиться:"
 
 #: templates/events.html:134
 msgid ""
