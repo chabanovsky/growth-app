@@ -782,7 +782,7 @@ body {
     margin-bottom: 7px;
 }
 .apply .edit-event-link {
-    margin-top: 20px;
+    margin: 20px 0 40px;
 }
 .activist-container .grid-layout {
     display: grid;

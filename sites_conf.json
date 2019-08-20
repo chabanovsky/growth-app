@@ -2,7 +2,7 @@
   "sites": [
     {
       "name":     "Stack Overflow на русском",
-      "url":      "https://ru.stackoverflow.com/",
+      "url":      "https://ru.stackoverflow.com",
       "meta":     "https://ru.meta.stackoverflow.com",
       "chat":     "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
       "api_name": "ru.stackoverflow",
@@ -11,8 +11,8 @@
     },
     {
       "name":     "Stack Overflow em Português",
-      "url":      "https://pt.stackoverflow.com/",
-      "meta":     "https://pt.meta.stackoverflow.com/",
+      "url":      "https://pt.stackoverflow.com",
+      "meta":     "https://pt.meta.stackoverflow.com",
       "chat":     "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha",
       "api_name": "pt.stackoverflow",
       "language": "pt",
@@ -20,8 +20,8 @@
     },
     {
       "name":     "スタック・オーバーフロー",
-      "url":      "https://ja.stackoverflow.com/",
-      "meta":     "https://ja.meta.stackoverflow.com/",
+      "url":      "https://ja.stackoverflow.com",
+      "meta":     "https://ja.meta.stackoverflow.com",
       "chat":     "https://chat.stackexchange.com/rooms/20999/",
       "api_name": "ja.stackoverflow",
       "language": "ja",

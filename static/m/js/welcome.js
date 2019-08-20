@@ -5,17 +5,17 @@ var strings = {
         firstBelieve: 'We believe that the desire to share knowledge with colleagues is not related to the language we speak, it is part of human nature.',
         secondBelieve: 'We believe that there are many among us who would like to help colleagues with advice in English.',
         thirdBelieve: 'We believe that leading by example, we encourage other talented developers do the same.',
-        together: 'We are glad to everyone who wants to grow a English-speaking developer community. Together, we will build the best software developer community of mutual help in the English language.',
-        join: 'Click to login',
+        together: 'We are glad to everyone who wants to grow a English-speaking developer community. Together we will build the best software developer community of mutual help in the English language.',
+        join: 'Click to login'
     },
     ru: {
         welcome: 'Здравствуйте!',
-        mouseOver: 'Наведите мышкой на сообщество, на вашем языке, чтобы изменить язык или нажмите на него, чтобы войти.',
+        mouseOver: 'Наведите мышкой на сообщество на вашем языке, чтобы изменить язык или нажмите на него, чтобы войти.',
         firstBelieve: 'Мы верим, что желание делиться знаниями с коллегами не связано с языком, на котором мы говорим, оно часть природы человека.',
         secondBelieve: 'Мы верим, что среди нас много тех, кто с радостью поможет коллегам советом на русском языке.',
         thirdBelieve: 'Мы верим, что своим примером, мы увлечем за собой других талантливых разработчиков.',
-        together: 'Рады всем, кто хочет развивать русскоязычное сообщество программистов. Вместе, мы создадим лучшее сообщество взаимной помощи по программированию на русском языке.',
-        join: 'Нажмите, чтобы войти',
+        together: 'Рады всем, кто хочет развивать русскоязычное сообщество программистов. Вместе мы создадим лучшее сообщество взаимной помощи по программированию на русском языке.',
+        join: 'Нажмите, чтобы войти'
     },
     es: {
         welcome: 'Welcome!',
@@ -23,8 +23,8 @@ var strings = {
         firstBelieve: 'We believe that the desire to share knowledge with colleagues is not related to the language we speak, it is part of human nature.',
         secondBelieve: 'We believe that there are many among us who would like to help colleagues with advice in Spanish.',
         thirdBelieve: 'We believe that leading by example, we encourage other talented developers do the same.',
-        together: 'We are glad to  everyone who wants to grow a Spanish-speaking developer community. Together, we will build the best software developer community of mutual help in the Spanish language.',
-        join: 'Click to login',
+        together: 'We are glad to  everyone who wants to grow a Spanish-speaking developer community. Together we will build the best software developer community of mutual help in the Spanish language.',
+        join: 'Click to login'
     },
     pt: {
         welcome: 'Welcome!',
@@ -32,8 +32,8 @@ var strings = {
         firstBelieve: 'We believe that the desire to share knowledge with colleagues is not related to the language we speak, it is part of human nature.',
         secondBelieve: 'We believe that there are many among us who would like to help colleagues with advice in Portuguese.',
         thirdBelieve: 'We believe that leading by example, we encourage other talented developers do the same.',
-        together: 'We are glad to everyone who wants to grow a Portuguese-speaking developer community. Together, we will build the best software developer community of mutual help in the Portuguese language.',
-        join:'Click to login',
+        together: 'We are glad to everyone who wants to grow a Portuguese-speaking developer community. Together we will build the best software developer community of mutual help in the Portuguese language.',
+        join:'Click to login'
     },
     ja: {
         welcome: 'Welcome!',
@@ -41,8 +41,8 @@ var strings = {
         firstBelieve: 'We believe that the desire to share knowledge with colleagues is not related to the language we speak, it is part of human nature.',
         secondBelieve: 'We believe that there are many among us who would like to help colleagues with advice in Japanese.',
         thirdBelieve: 'We believe that leading by example, we encourage other talented developers do the same.',
-        together: 'We are glad to everyone who wants to grow a Japanese-speaking developer community. Together, we will build the best software developer community of mutual help in the Japanese language.',
-        join: 'Click to login',
+        together: 'We are glad to everyone who wants to grow a Japanese-speaking developer community. Together we will build the best software developer community of mutual help in the Japanese language.',
+        join: 'Click to login'
     }
 }
 
