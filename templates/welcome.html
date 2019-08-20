@@ -4,62 +4,69 @@
 {% endblock %}
 {% block header %}
 {% endblock %}
+{% block js_ext %}
+<script type="text/javascript" async="" src="/m/js/welcome.js"></script>
+{% endblock %}
 {% block content %}
 <div class="welcome">
-<h2>{{ gettext('Welcome!') }}</h2>
+    <h2 id="welcome"></h2>
+    <div id="lang-hint"></div>
+    <table id="communities">
+        <tr>
+            <td>
+                <a href="{{ url_for('start_oauth', language='pt') }}">
+                    <img src="/m/img/sopt_logo_small.png">
+                </a>
+            </td>
+            <td>
+                <a href="{{ url_for('start_oauth', language='ru') }}">
+                    <img src="/m/img/soru_logo_small.png">
+                </a>
+            </td>
+            <td>
+                <a href="{{ url_for('start_oauth', language='ja') }}">
+                    <img src="/m/img/soja_logo_small.png">
+                </a>
+            </td>
+            <td>
+                <a href="{{ url_for('start_oauth', language='es') }}">
+                    <img src="/m/img/soes_logo_small.png">
+                </a>
+            </td>
+            <td>
+                <a href="{{ url_for('start_oauth', language='en') }}">
+                    <img src="/m/img/soen_logo_small.png">
+                </a>
+            </td>
+        </tr>
+    </table>
+    <p>
+        <div class="divider">
+            <div></div>
+        </div>
+    </p>
+    <div class="believes">
+        <p>
+            <div id="first-believe"></div>
+        </p>
+        <p>
+            <div id="second-believe"></div>
+        </p>
+        <p>
+            <div id="third-believe"></div>
+        </p>
 
-<table>
-    <tr>
-        <td>
-            <a href="{{ url_for('start_oauth', language='pt') }}">
-                <img src="/m/img/sopt_logo_small.png">
-            </a>
-        </td>
-        <td>
-            <a href="{{ url_for('start_oauth', language='ru') }}">
-                <img src="/m/img/soru_logo_small.png">
-            </a>
-        </td>
-        <td>
-            <a href="{{ url_for('start_oauth', language='ja') }}">
-                <img src="/m/img/soja_logo_small.png">
-            </a>
-        </td>
-        <td>
-            <a href="{{ url_for('start_oauth', language='es') }}">
-                <img src="/m/img/soes_logo_small.png">
-            </a>
-        </td>
-        <td>
-            <a href="{{ url_for('start_oauth', language='en') }}">
-                <img src="/m/img/soen_logo_small.png">
-            </a>
-        </td>
-    </tr>
-</table>
-
-<p class="main-description">
-    {{ gettext('Association Tools allows you to mark two questions as the same on two sites Stack Overflow in English and Stack Overflow in a language') }}
-</p>
-<p>
-    <div class="divider">
-        <div></div>
     </div>
-</p>
-<p class="login-and-start">
-    <a href="{{ url_for('start_oauth') }}">{{ gettext('Log in and start associating') }}</a></br>
-    <span>{{ gettext('In order to associate you must log in with Stack Exchange OAuth.') }}</span>
-    <span>
-    {{ gettext("This is an open source project. If you know how to improve the app, please, do that: ") }} <a href="https://github.com/chabanovsky/so_association_tools">https://github.com/chabanovsky/so_association_tools</a>
-    </span>
-</p>
-<p>
-    <div class="divider">
-        <div></div>
-    </div>
-</p>
-<p class="why">
-    <div class="title">{{ gettext('Help to build a bridge connecting knowledge bases and communities') }}</div>
-</p>
+    <p>
+        <div class="divider">
+            <div></div>
+        </div>
+    </p>
+    <p class="login-and-start">
+        <a href="{{ url_for('start_oauth') }}" id="join"></a></br>
+    </p>
+    <p class="why">
+        <div class="title" id="together"></div>
+    </p>
 </div>
 {% endblock %}

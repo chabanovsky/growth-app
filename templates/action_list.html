@@ -31,11 +31,11 @@
     <div class="action-head">
         <div class="sub-menu">
             <div class="list_switcher">
-                <a {% if "reviewed" in review_selected %}class="selected"{% endif %} href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewed') }}" >{{ gettext('Reviewed actions') }}</a>
+                <a {% if "reviewed" in review_selected %}class="selected"{% endif %} href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewed') }}" >{{ gettext('Reviewed') }}</a>
                 {% if g.user.role == 'moderator' or g.user.is_coordinator %}
                 <a {% if "reviewing" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='reviewing') }}" >{{ gettext('Waiting for review') }}</a>
                 {% endif %}
-                <a {% if "rejected" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='rejected') }}" >{{ gettext('Rejected actions') }}</a>
+                <a {% if "rejected" in review_selected %}class="selected"{% endif %}  href="{{ url_for('action_list', activity_type=active.activity_type, review_selected='rejected') }}" >{{ gettext('Rejected') }}</a>
             </div>
         </div>
     </div>
@@ -71,8 +71,10 @@
     {% else %}
         {% if "reviewed" in review_selected %}
             {{ gettext('Nothing has been done. Do not wait, just do it!') }}
-        {% else%}
+        {% elif "reviewing" in review_selected %}
             {{ gettext('Everything has been reviewed! Do not wait, add more!') }}
+        {% else %}
+            {{ gettext('Nothing here. Nice!') }}
         {% endif %}
     {% endif %}
 </div>

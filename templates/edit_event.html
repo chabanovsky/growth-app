@@ -24,6 +24,7 @@
                         <select id="event-type">
                             <option {% if event.event_type == 1 %}selected{% endif %} value="meetups">{{ gettext('Meetup') }}</option>
                             <option {% if event.event_type == 2 %}selected{% endif %}value="webcasts">{{ gettext('Webcast') }}</option>
+                            <option {% if event.event_type == 3 %}selected{% endif %}value="makeathon">{{ gettext('MakeAThon') }}</option>
                         </select>
                     </td>
                 </tr>

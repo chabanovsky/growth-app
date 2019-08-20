@@ -30,7 +30,7 @@
             <a></a>
         </div>
         <div id="nav">
-            <a {% if "activities" in section %}class="selected"{% endif %} id="nav_activities" href="{{ url_for('activities') }}">{{ gettext('Activities') }}</a>
+            <a {% if "activities" in section %}class="selected"{% endif %} id="nav_activities" href="{{ url_for('activities') }}">{{ gettext('Questions') }}</a>
             <a {% if "events" in section %}class="selected"{% endif %} id="nav_events" href="{{ url_for('events', event_type='upcoming') }}">{{ gettext('Events') }}</a>
             <a {% if "activists" in section %}class="selected"{% endif %} id="nav_activists" href="{{ url_for('activists', activist_type='activists') }}">{{ gettext('Activists') }}</a>
         </div>
@@ -40,6 +40,7 @@
         {% block content %} {% endblock %}
     </div>
     {% endblock %}
+    {% include 'footer.html' %}
 </body>
 
 </html>

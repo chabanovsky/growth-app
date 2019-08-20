@@ -238,13 +238,12 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %r>' % str(self.id)
 
-
 class Activity(db.Model):
     __tablename__       = 'activity'
 
-    activity_type_self_answered = 1
-    activity_type_translation   = 2
-    activity_type_interesting   = 3
+    activity_type_interesting   = 1
+    activity_type_needed        = 2
+    activity_type_creative      = 3
 
     id      = db.Column(db.Integer, primary_key=True)
     site_id = db.Column(db.Integer, ForeignKey('site.id'))
@@ -497,6 +496,7 @@ class Event(db.Model):
 
     event_type_meetup   = 1
     event_type_webcast  = 2
+    event_type_makeathon= 3
 
     id          = db.Column(db.Integer, primary_key=True)
     created_by  = db.Column(db.Integer, ForeignKey('user.id'))
@@ -528,7 +528,6 @@ class Event(db.Model):
         self.meta_post_id = meta_post_id
         self.chat_link = chat_link
 
-    # Fix it! We must pass meta_post_id AND user_id
     @staticmethod
     def by_meta_post_id(meta_post_id, site_id):
         session = db_session()

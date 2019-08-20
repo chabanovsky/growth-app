@@ -3,13 +3,13 @@
     {
       "activity_type": 1,
       "site_api_name": "ru.stackoverflow",
-      "tab_name": "Вопросы с ответами",
-      "title": "Вопрос со своим ответом",
-      "description": "<div>Вопросы с хорошими ответами — главная ценность сайта для посетителей. Давайтее создадим лучшую в мире прикладную базу знаний на русском языке по программированию.</div>",
+      "tab_name": "Интересные",
+      "title": "Интересные вопросы",
+      "description": "Вопросы, прочитав которые, хочется отложить все дела, углубиться в тему и опубликовать свой ответ, дополнив уже существующие. Поиск ответа на такие вопросы невероятно увлекательное занятие. Это может быть что угодно, начиная от вопросов по фундаментальным знаниям архитектуры ПК, вплоть до вопросов–соревнований или вопросов о всех способах вывести в консоль «hello world» с пустой функцией main в С и С++.",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
-      "meta_post_title": "Как ответить на свой вопрос?",
+      "meta_post_title": "Давайте создавать больше содержимого, в котором нуждаются наши коллеги",
       "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
-      "chat_name": "Stack Overflow на русском",
+      "chat_name": "Основной чат Stack Overflow на русском",
       "coordinators": [
         {
           "account_id": 272910
@@ -19,13 +19,29 @@
     {
       "activity_type": 2,
       "site_api_name": "ru.stackoverflow",
-      "tab_name": "Переводы",
-      "title": "Перевод лучших вопросов на русский язык",
-      "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
+      "tab_name": "Востребованные",
+      "title": "Востребованные вопросы",
+      "description": "Существует множество тем, информацию на которые найти довольно сложно: все, что касается передовых технологий; лучшие практики использования устоявшихся; секреты и уловки применения библиотек. Многие наши коллеги были благодарны за канонические вопросы на эти и другие темы.",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
-      "meta_post_title": "Нужны ли переводы на Stack Overflow? Если да, какой вы видите систему?",
+      "meta_post_title": "Давайте создавать больше содержимого, в котором нуждаются наши коллеги",
       "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
-      "chat_name": "Stack Overflow на русском",
+      "chat_name": "Основной чат Stack Overflow на русском",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
+    },
+    {
+      "activity_type": 3,
+      "site_api_name": "ru.stackoverflow",
+      "tab_name": "Творческие",
+      "title": "Творческие вопросы",
+      "description": "Помните то чувство, когда вы видели статью по программированию, которая вызывала у вас желание разместить ссылку на нее во всех возможных социальных сетях или отправить по почте другу? Давайте создавать творческие вопросы с ответами, которые наши коллеги захотят добавить в избранное и поделиться с окружающим их миром.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
+      "meta_post_title": "Давайте создавать больше содержимого, в котором нуждаются наши коллеги",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Основной чат Stack Overflow на русском",
       "coordinators": [
         {
           "account_id": 272910
@@ -34,12 +50,60 @@
     },
     {
       "activity_type": 1,
-      "tab_name": "Preguntas con respuestas",
+      "site_api_name": "ja.stackoverflow",
+      "tab_name": "Interesting",
+      "title": "Interesting Questions",
+      "description": "Questions, after reading which, one wants to stop doing whatever they have been doing, delve into the topic and post their own answer. Looking for an answer to such questions is an incredibly exciting activity. Questions can be very different, starting from fundamental knowledge of PC architecture, up to codegolf questions or questions about all the ways to print 'hello world' in the console with an empty main function in C/C++.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Main Stack Overflow In Russian chat room",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
+    },
+    {
+      "activity_type": 2,
+      "site_api_name": "ja.stackoverflow",
+      "tab_name": "Needed",
+      "title": "Needed Questions",
+      "description": "There are many topics for which it is quite difficult to find information: everything related to new advanced technologies; best practices for using established ones; tips and tricks of using libraries, etc. Many of our colleagues would be grateful if we create canonical questions on these and other topics.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Main Stack Overflow In Russian chat room",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
+    },
+    {
+      "activity_type": 3,
+      "site_api_name": "ja.stackoverflow",
+      "tab_name": "Creative",
+      "title": "Creative Questions",
+      "description": "Remember the feeling when you saw an article on programming that made you want to share a link to it on all possible social networks or even send the link in an email to a friend. Let's create creative questions and answers that our fellows want to upvote, add to favorites, and share with the world around them.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Main Stack Overflow In Russian chat room",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
+    },
+    {
+      "activity_type": 1,
       "site_api_name": "es.stackoverflow",
-      "title": "[ES]Перевод лучших вопросов на русский язык",
-      "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
-      "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
-      "meta_post_title": "Нужны ли переводы на Stack Overflow? Если да, какой вы видите систему?",
+      "tab_name": "Interesting",
+      "title": "[ES]Interesting Questions",
+      "description": "Questions, after reading which, one wants to stop doing whatever they have been doing, delve into the topic and post their own answer. Looking for an answer to such questions is an incredibly exciting activity. Questions can be very different, starting from fundamental knowledge of PC architecture, up to codegolf questions or questions about all the ways to print 'hello world' in the console with an empty main function in C/C++.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
       "chat_url": "https://chat.stackexchange.com/rooms/30872/stack-overflow-en-espanol",
       "chat_name": "Stack Overflow en español",
       "coordinators": [
@@ -50,12 +114,12 @@
     },
     {
       "activity_type": 1,
-      "tab_name": "Perguntas com respostas",
       "site_api_name": "pt.stackoverflow",
-      "title": "[PT]Перевод лучших вопросов на русский язык",
-      "description": "<div>Сделаем международный опыт достыпными для наших русскоязычных коллег.</div>",
-      "meta_post_url": "https://ru.meta.stackoverflow.com/q/8371/",
-      "meta_post_title": "Нужны ли переводы на Stack Overflow? Если да, какой вы видите систему?",
+      "tab_name": "Interesting",
+      "title": "[PT]Interesting Questions",
+      "description": "Questions, after reading which, one wants to stop doing whatever they have been doing, delve into the topic and post their own answer. Looking for an answer to such questions is an incredibly exciting activity. Questions can be very different, starting from fundamental knowledge of PC architecture, up to codegolf questions or questions about all the ways to print 'hello world' in the console with an empty main function in C/C++.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
       "chat_url": "https://chat.stackexchange.com/rooms/11910/estouro-de-pilha",
       "chat_name": "Estouro de Pilha",
       "coordinators": [
@@ -67,13 +131,45 @@
     {
       "activity_type": 1,
       "site_api_name": "stackoverflow",
-      "tab_name": "Self Answered Questions",
-      "title": "Self Answered Questions",
-      "description": "<div>Вопросы с хорошими ответами — главная ценность сайта для посетителей. Давайтее создадим лучшую в мире прикладную базу знаний на русском языке по программированию.</div>",
+      "tab_name": "Interesting",
+      "title": "Interesting Questions",
+      "description": "Questions, after reading which, one wants to stop doing whatever they have been doing, delve into the topic and post their own answer. Looking for an answer to such questions is an incredibly exciting activity. Questions can be very different, starting from fundamental knowledge of PC architecture, up to codegolf questions or questions about all the ways to print 'hello world' in the console with an empty main function in C/C++.",
       "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
-      "meta_post_title": "Как ответить на свой вопрос?",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
       "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
-      "chat_name": "Stack Overflow на русском",
+      "chat_name": "Main Stack Overflow In Russian chat room",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
+    },
+    {
+      "activity_type": 2,
+      "site_api_name": "stackoverflow",
+      "tab_name": "Needed",
+      "title": "Needed Questions",
+      "description": "There are many topics for which it is quite difficult to find information: everything related to new advanced technologies; best practices for using established ones; tips and tricks of using libraries, etc. Many of our colleagues would be grateful if we create canonical questions on these and other topics.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Main Stack Overflow In Russian chat room",
+      "coordinators": [
+        {
+          "account_id": 272910
+        }
+      ]
+    },
+    {
+      "activity_type": 3,
+      "site_api_name": "stackoverflow",
+      "tab_name": "Creative",
+      "title": "Creative Questions",
+      "description": "Remember the feeling when you saw an article on programming that made you want to share a link to it on all possible social networks or even send the link in an email to a friend. Let's create creative questions and answers that our fellows want to upvote, add to favorites, and share with the world around them.",
+      "meta_post_url": "https://ru.meta.stackoverflow.com/q/3572/",
+      "meta_post_title": "Let us purposefully create more content that our colleagues need",
+      "chat_url": "https://chat.stackexchange.com/rooms/22462/stack-overflow--",
+      "chat_name": "Main Stack Overflow In Russian chat room",
       "coordinators": [
         {
           "account_id": 272910

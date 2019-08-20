@@ -24,6 +24,7 @@ body {
 #content {
     width: 700px;
     margin: 0px auto;
+    padding-bottom: 70px;
 }
 
 #header {
@@ -435,6 +436,10 @@ body {
     font-size: 22px;
 }
 
+.welcome p {
+    text-align: left;
+}
+
 .welcome .login-and-start {
     text-align: center;
 }
@@ -639,6 +644,7 @@ body {
 .action_list .action-content-container {
     float: left;
     width: 100%;
+    margin: 30px 0px;
 }
 .action_list .action-content-container .action-content .author{
     float: left;
@@ -813,4 +819,21 @@ body {
 }
 .mod-tools {
     font-size: 10px;
+}
+.footer {
+    max-width: 700px;
+    padding: 32px 0px;
+    border-top: 1px solid rgba(187,192,196,0.15);
+    width: 100%;
+    margin: 30px auto 0;
+    display: flex;
+    flex-flow: row wrap;
+    box-sizing: border-box;
+    align-items: center !important;
+}
+.footer a {
+    margin-right: 30px;
+}
+.welcome .believes {
+
 }
