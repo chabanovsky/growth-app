@@ -377,7 +377,10 @@ class Activist(db.Model):
     def user_coordinate_times(user_id, site_id):
         session = db_session()
         result = session.query(func.count(Activist.id)).join(Activity).filter(
-            Activist.user_id == user_id, Activist.role == Activist.role_coordinator, Activist.canceled==False, Activity.site_id == site_id).scalar()
+            Activist.user_id == user_id,
+            Activist.role == Activist.role_coordinator,
+            Activist.canceled == False,
+            Activity.site_id == site_id).distinct().scalar()
         session.close()
         return result
 
@@ -500,7 +503,7 @@ class Event(db.Model):
 
     id          = db.Column(db.Integer, primary_key=True)
     created_by  = db.Column(db.Integer, ForeignKey('user.id'))
-    site_id = db.Column(db.Integer, ForeignKey('site.id'))
+    site_id     = db.Column(db.Integer, ForeignKey('site.id'))
     creation_date= db.Column(db.DateTime, nullable=False)
     date        = db.Column(db.DateTime, nullable=False)
     title       = db.Column(db.String)

@@ -12,7 +12,7 @@ from flask_babel import gettext, ngettext
 from sqlalchemy import and_, desc
 from sqlalchemy.sql import func
 
-from meta import app as application, db, db_session, engine
+from meta import app as application, db, db_session, engine, babel
 from models import User, Activity, Site, Action, Activist, DBModelAdder, Verification, Event
 from pagination import action_pagination, event_paginator, activist_paginator
 from meta import STACKEXCHANGE_CLIENT_SECRET, STACKEXCHANGE_CLIENT_ID, STACKEXCHANGE_CLIENT_KEY
@@ -27,6 +27,11 @@ LOGOUT_CASES = [401, 402, 403, 405, 406]
 LOGOUT_MSG = gettext(
     'Your access token is not valid any more. To work with the app you need to log in again. Now you will be logged out.')
 
+@babel.localeselector
+def get_locale():
+    if 'language' in session:
+        return session['language']
+    return 'en'
 
 @application.before_request
 def before_request():

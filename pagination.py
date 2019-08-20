@@ -41,7 +41,7 @@ def action_pagination(activity, page_num, reviewed, per_page=DEFAULT_QUESTIONS_P
 
 
 def pagination_helper(page_num, per_page, the_query):
-    total = the_query.count()
+    total = len(the_query.all())
     items = the_query.offset((page_num-1)*per_page).limit(per_page).all()
     p = Pagination(the_query, page_num, per_page, total, items)
     return p

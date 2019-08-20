@@ -27,7 +27,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = FLASK_SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://' + PG_NAME_PASSWORD + '@localhost:5432/'+ DB_NAME + '?client_encoding=utf8'
-#app.config['BABEL_DEFAULT_LOCALE'] = LANGUAGE
 
 engine = make_db_engine()
 db_session = make_db_session(engine)

@@ -311,6 +311,8 @@ def load_activities(filename):
             if Activist.is_exist(adder, activity.id, user.id):
                 print "Coordinator (%s) for activity (%s) already exists." % (str(coordinator), str(activity_id))
                 adder.done()
+                continue
+
             activist = Activist.coordinator(user.id, activity_id)
             adder.add(activist)
             adder.done()
