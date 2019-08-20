@@ -245,19 +245,19 @@ msgstr "Дата и время"
 
 #: templates/edit_event.html:41 templates/events.html:55
 msgid "Location"
-msgstr "Место нахождения"
+msgstr "Место"
 
 #: templates/edit_event.html:49 templates/events.html:63
 msgid "Link to post on meta"
-msgstr "Ссылка на вопрос на Мете"
+msgstr "Вопрос на Мете"
 
 #: templates/edit_event.html:57 templates/events.html:71
 msgid "Link to chat"
-msgstr "Ссылка на чат"
+msgstr "Чат события"
 
 #: templates/edit_event.html:65 templates/events.html:79
 msgid "Short description"
-msgstr "Короткое описание"
+msgstr "Краткое описание"
 
 #: templates/event.html:17 templates/events.html:117
 msgid " at "
