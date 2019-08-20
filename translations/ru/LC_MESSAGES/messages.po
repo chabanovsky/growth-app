@@ -147,11 +147,11 @@ msgstr "Координаторы"
 
 #: templates/activists.html:26
 msgid "unsuspend"
-msgstr "разблокировать"
+msgstr "снять блок"
 
 #: templates/activists.html:28
 msgid "suspend"
-msgstr "заблокировать"
+msgstr "блок."
 
 #: templates/activists.html:37
 msgid "event attended"
