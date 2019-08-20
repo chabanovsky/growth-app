@@ -117,7 +117,7 @@
                         <div class="date-time">{{ event.date.strftime('%Y-%m-%d') }}{{ gettext(' at ') }}{{ event.date.strftime('%H:%M') }}</div>
                         <div class="location">{{ event.location }}</div>
                         <div class="coordinated-by">
-                            {{ gettext('Coordinated by ') }}<a target="_blank" href="{{ event.coordinator.profile_link }}">{{ event.coordinator.username }}</a>
+                            <span>{{ gettext('Coordinated by ') }}</span><a target="_blank" href="{{ event.coordinator.profile_link }}">{{ event.coordinator.username }}</a>
                         </div>
                     </div>
                     <div class="attendees">

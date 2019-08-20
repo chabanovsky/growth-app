@@ -734,6 +734,9 @@ body {
     width: 100%;
     margin: 5px 0 2px;
 }
+.event-container .event .coordinated-by span {
+    margin-right: 10px;
+}
 .event-container .event-header {
     border-bottom: 1px solid #E0DCBF;
     margin-bottom: 20px;
