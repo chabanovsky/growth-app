@@ -1,0 +1,389 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-08-20 15:17+0300\n"
+"PO-Revision-Date: 2019-08-20 14:37+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: views.py:27
+msgid ""
+"Your access token is not valid any more. To work with the app you need to"
+" log in again. Now you will be logged out."
+msgstr ""
+"Ваш допуск более не действителен. Для продолжения работы с приложением "
+"выйдите и войдите заново."
+
+#: views.py:233 views.py:240 views.py:285 views.py:423 views.py:430
+#: views.py:479 views.py:486
+msgid "Wrong params"
+msgstr "Неверные параметры"
+
+#: views.py:246
+msgid "There is no action with this id."
+msgstr "С таким идентификатором активности нет."
+
+#: views.py:270
+msgid "Action was reviewed. Thank you!"
+msgstr "Активность была проверена. Спасибо!"
+
+#: views.py:292
+msgid "To many actions. Take a break, please."
+msgstr "Слишком много активностей. Пожалуйста, передохните"
+
+#: views.py:300
+msgid "This link has been already added."
+msgstr "Эту ссылку уже добавили."
+
+#: views.py:309
+msgid "Action was added. It will be reviewed soon. Thank you!"
+msgstr "Активность добавлена. Мы скоро проверим её. Спасибо!"
+
+#: views.py:340 views.py:396 views.py:437
+msgid "Invalid params."
+msgstr "Неверные параметры."
+
+#: views.py:347
+msgid "Invalid date"
+msgstr "неверная дата"
+
+#: views.py:354
+msgid "Invalid meta url"
+msgstr "Неверный мета–адрес "
+
+#: views.py:362
+msgid "There is no event with such id."
+msgstr "События с таким идентификатором не существует."
+
+#: views.py:387
+msgid "This event already exists"
+msgstr "Такое событие уже существует."
+
+#: views.py:408
+msgid "Event has been added. Thank you!"
+msgstr "Событие добавлено. Спасибо!"
+
+#: templates/event.html:75 views.py:443
+msgid "This event has already happened. No one cannot apply on it."
+msgstr "Событие завершилось. Откликнуться нельзя."
+
+#: views.py:451
+msgid "You are not on the list. No need to do anything!"
+msgstr "Вас нет в списке. Делать ничего не надо."
+
+#: views.py:466
+msgid "Your application has been saved. Thank you!"
+msgstr "Ваше оклик сохранен. Спасибо!"
+
+#: views.py:499
+#, python-format
+msgid "The user was %s"
+msgstr "Это был %s"
+
+#: templates/action_list.html:13 templates/activity.html:37
+msgid "Activity Coordinators"
+msgstr "Координаторы"
+
+#: templates/action_list.html:24 templates/activity.html:48
+msgid ""
+"Nobody here. Contact @NicolasChabanovsky on The Terminal to be a "
+"coordinator of the activity."
+msgstr ""
+"Пока никого нет. Свяжитесь с @NicolasChabanovsky в чате Терминал, чтобы "
+"стать координатором."
+
+#: templates/action_list.html:34
+msgid "Reviewed"
+msgstr "Проверенные"
+
+#: templates/action_list.html:36
+msgid "Waiting for review"
+msgstr "Ждут проверки"
+
+#: templates/action_list.html:38
+msgid "Rejected"
+msgstr "Отклоненные"
+
+#: templates/action_list.html:61
+msgid "Looks good!"
+msgstr "Все хорошо!"
+
+#: templates/action_list.html:64
+msgid "Reject"
+msgstr "Отклонить"
+
+#: templates/action_list.html:73
+msgid "Nothing has been done. Do not wait, just do it!"
+msgstr "Еще ничего нет. Не ждите, просто сделайте!"
+
+#: templates/action_list.html:75
+msgid "Everything has been reviewed! Do not wait, add more!"
+msgstr "Все проверено. Не ждите, добавьте что–нибудь!"
+
+#: templates/action_list.html:77
+msgid "Nothing here. Nice!"
+msgstr "Ничего нет. Отличненько!"
+
+#: templates/activists.html:8 templates/activity.html:54 templates/base.html:35
+msgid "Activists"
+msgstr "Активисты"
+
+#: templates/activists.html:9
+msgid "Coordinators"
+msgstr "Координаторы"
+
+#: templates/activists.html:26
+msgid "unsuspend"
+msgstr "разблокировать"
+
+#: templates/activists.html:28
+msgid "suspend"
+msgstr "заблокировать"
+
+#: templates/activists.html:37
+msgid "event attended"
+msgid_plural "events attended"
+msgstr[0] "собыитие поситил"
+msgstr[1] "собыития поситил"
+msgstr[2] "собыитий поситил"
+
+#: templates/activists.html:41
+msgid "action submitted"
+msgid_plural "actions submitted"
+msgstr[0] "активность отправил"
+msgstr[1] "активности отправил"
+msgstr[2] "активностей отправил"
+
+#: templates/activists.html:45
+msgid "time was the coordinator"
+msgid_plural "times was the coordinator"
+msgstr[0] "раз выступал координатором"
+msgstr[1] "раза выступал координатором"
+msgstr[2] "раз выступал координатором"
+
+#: templates/activity.html:23
+msgid "List of actions »"
+msgstr "Список активностей »"
+
+#: templates/activity.html:29 templates/edit_event.html:75
+#: templates/events.html:90
+msgid "Submit"
+msgstr "Отправить"
+
+#: templates/activity.html:31
+msgid "Past a link to a post in the input above and press \"Submit\"."
+msgstr "Вставьте ссылку на сообщение в полее выше и нажмите \"Отправить\"."
+
+#: templates/activity.html:65
+msgid "Nobody here. Submit something and be the first!"
+msgstr "Ничего нет. Будьте первым! Отправьте что–нибудь."
+
+#: templates/activity.html:75
+msgid "Related Links:"
+msgstr "Связанные ссылки:"
+
+#: templates/activity.html:80
+msgid "Meta:"
+msgstr "Мета:"
+
+#: templates/activity.html:90
+msgid "Chat:"
+msgstr "Чат:"
+
+#: templates/activity.html:100
+msgid "General chat:"
+msgstr "Основной чат:"
+
+#: templates/activity.html:104
+msgid "The Terminal"
+msgstr "Терминал"
+
+#: templates/base.html:33
+msgid "Questions"
+msgstr "Вопросы"
+
+#: templates/base.html:34
+msgid "Events"
+msgstr "События"
+
+#: templates/edit_event.html:13 templates/events.html:27
+msgid "Title"
+msgstr "Заголовок"
+
+#: templates/edit_event.html:21 templates/events.html:35
+msgid "Event type"
+msgstr "Тип события"
+
+#: templates/edit_event.html:25 templates/events.html:39
+msgid "Meetup"
+msgstr "Встреча"
+
+#: templates/edit_event.html:26 templates/events.html:40
+msgid "Webcast"
+msgstr "Видеочат"
+
+#: templates/edit_event.html:27 templates/events.html:41
+msgid "MakeAThon"
+msgstr "СделатьТонну"
+
+#: templates/edit_event.html:33 templates/events.html:47
+msgid "Date & time"
+msgstr "Дата и время"
+
+#: templates/edit_event.html:41 templates/events.html:55
+msgid "Location"
+msgstr "Место нахождения"
+
+#: templates/edit_event.html:49 templates/events.html:63
+msgid "Link to post on meta"
+msgstr "Ссылка на вопрос на Мете"
+
+#: templates/edit_event.html:57 templates/events.html:71
+msgid "Link to chat"
+msgstr "Ссылка на чат"
+
+#: templates/edit_event.html:65 templates/events.html:79
+msgid "Short description"
+msgstr "Короткое описание"
+
+#: templates/event.html:17 templates/events.html:117
+msgid " at "
+msgstr " в "
+
+#: templates/event.html:20
+msgid "Location:"
+msgstr "Место"
+
+#: templates/event.html:25
+msgid "Useful links:"
+msgstr "Полезные ссылки:"
+
+#: templates/event.html:28
+msgid "Chat"
+msgstr "Чат"
+
+#: templates/event.html:31
+msgid "Meta"
+msgstr "Мета"
+
+#: templates/event.html:36
+msgid "Event Coordinator"
+msgstr "Координатор события"
+
+#: templates/event.html:50
+msgid "Event Attendees"
+msgstr "Участники события"
+
+#: templates/event.html:61
+msgid "Nobody here. Be the first!"
+msgstr "Еще никого нет. Будь первым!"
+
+#: templates/event.html:70
+msgid "I am going to attend!"
+msgstr "Я планирую принять участие!"
+
+#: templates/event.html:72
+msgid "Cancel my application"
+msgstr "Отметить мою регистрацию"
+
+#: templates/event.html:79
+msgid "Edit this event"
+msgstr "Править событие"
+
+#: templates/events.html:8
+msgid "Upcoming"
+msgstr "Предстоящие"
+
+#: templates/events.html:9
+msgid "Past"
+msgstr "Прошедшие"
+
+#: templates/events.html:11
+msgid "Schedule Event"
+msgstr "Создать событие"
+
+#: templates/events.html:99
+msgid "There are no events."
+msgstr "Событий нет."
+
+#: templates/events.html:120
+msgid "Coordinated by "
+msgstr "Координатор"
+
+#: templates/events.html:125
+msgid "The following users are going to attend tis event:"
+msgstr "Участники, которые собираются принять участие:"
+
+#: templates/events.html:134
+msgid ""
+"Nobody has applied to this event yet in the app. Please reach the "
+"coordinator for more information."
+msgstr ""
+"Пока никто не зарегистрировался на событие в приложении. Пожалуйста, "
+"свяжитесь с координатором, чтобы узнать больше."
+
+#: templates/footer.html:3
+msgid "Manifesto"
+msgstr "Манифест"
+
+#: templates/footer.html:4
+msgid "Key values"
+msgstr "Ключевые ценности"
+
+#: templates/locale_strings.js:2
+msgid ""
+"Something went wrong. Action has not been added. Please try to do it "
+"again."
+msgstr ""
+"Что–то пошло не так. Активность не добавлена. Пожалуйста, попробуйте еще "
+"раз."
+
+#: templates/locale_strings.js:3
+msgid "Something went wrong during action reviewing. Please try to do it again."
+msgstr ""
+"Что–то пошло не так во время проверки активности. Пожалуйста, попробуйте "
+"еще раз."
+
+#: templates/locale_strings.js:4
+msgid "Something went wrong. Event has not been added. Please try to do it again."
+msgstr "Что–то пошло не так. Событие не добавлено. Пожалуйста, попробуйте еще раз."
+
+#: templates/no_way.html:3 templates/no_way.html:8
+msgid "No Way"
+msgstr "Без вариантов"
+
+#: templates/no_way.html:10
+msgid "There is no way to use the app without OAuth authentication."
+msgstr "Сожалеем, но без авторизации использовать приложение невозможно."
+
+#: templates/no_way.html:13
+msgid "Try again"
+msgstr "Попробуйте снова"
+
+#: templates/topbar.html:14
+msgid "log out"
+msgstr "выйти"
+
+#: templates/topbar.html:15
+msgid "Help to make the app better. Contribute to the project on GitHub."
+msgstr ""
+"Помогите сделать приложение лучше. Присоединяйтесь к разработке проекта "
+"на GitHub."
+
+#: templates/topbar.html:15
+msgid "GitHub"
+msgstr "GitHub"
+

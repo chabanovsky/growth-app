@@ -243,7 +243,7 @@ def verify_action(action_id):
     if action is None:
         return jsonify(**{
             "status": False,
-            "msg": gettext("There are no action with this id.")
+            "msg": gettext("There is no action with this id.")
         })
 
     coordinators = Activist.coordinators(action.id)
@@ -297,7 +297,7 @@ def submit_action():
     if Action.is_exist(adder, activity_id, link):
         return jsonify(**{
             "status": False,
-            "msg": gettext("This link for this activity has been already added.")
+            "msg": gettext("This link has been already added.")
         })
 
     action = Action(g.user.id, activity_id, None, link)
