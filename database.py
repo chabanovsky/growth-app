@@ -268,12 +268,12 @@ def load_posts(site_id, site_api_name, since_date):
 
 
 def load_sites(filename):
-    adder = DBModelAdder()
-    adder.start()
-
     with open(filename) as json_file:
         data = json.load(json_file)
         for item in data["sites"]:
+            adder = DBModelAdder()
+            adder.start()
+
             name    = item["name"]
             url     = item["url"]
             meta    = item["meta"]
@@ -292,8 +292,9 @@ def load_sites(filename):
                 site.chat = chat
             else:
                 site = Site(name, url, meta, chat, api_name, launch_date, language)
+                
             adder.add(site)
-    adder.done()
+            adder.done()
 
 def load_activities(filename):
 
