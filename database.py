@@ -292,7 +292,7 @@ def load_sites(filename):
                 site.chat = chat
             else:
                 site = Site(name, url, meta, chat, api_name, launch_date, language)
-                
+
             adder.add(site)
             adder.done()
 
