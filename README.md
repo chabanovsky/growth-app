@@ -40,4 +40,4 @@ Growth app is an app for Stack Overflow activists who want to bring  collaborati
 10. Execute `python growth_app.py --load_sites`. This command loads 'site_conf.json' and fills the Site database table. 
 11. Execute `python growth_app.py --load_activities`. This command loads activities and activists from activities_conf.json.
 
-This was it. Now it should work.     
+This was it. Now it should work. If it does not, please ping @NicolasChabanovsky in [The Terminal](https://chat.stackexchange.com/rooms/84778/the-terminal).     
