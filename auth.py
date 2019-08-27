@@ -51,7 +51,7 @@ def stackexcange_oauth_callback():
 
     headers = {'content-type': "application/x-www-form-urlencoded"}
 
-    r = requests.post(STACKEXCHANGE_OAUTH_GET_ACCESS_TOKEN, data=params, headers=headers)
+    r = requests.post(STACKEXCHANGE_OAUTH_GET_ACCESS_TOKEN, data=params, headers=headers, verify=False)
 
     if r.status_code == 400:
         logging.error("Cannot authorise a user on SE OAuth. ")
@@ -94,7 +94,7 @@ def login_oauth():
         "access_token": session['access_token']
     }
 
-    r = requests.get(STACKEXCHANGE_OAUTH_ME_ENDPOINT, data=params)
+    r = requests.get(STACKEXCHANGE_OAUTH_ME_ENDPOINT, data=params, verify=False)
     data = json.loads(r.text)
     account_id = -1
     user_id = -1
